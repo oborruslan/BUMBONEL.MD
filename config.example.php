@@ -4,6 +4,17 @@ return [
     'app' => [
         'base_url' => 'http://bumbonel.local',
     ],
+    'database' => [
+        'host' => '127.0.0.1',
+        'port' => 3306,
+        'name' => 'bumbonel',
+        'user' => 'bumbonel',
+        'password' => '',
+        'charset' => 'utf8mb4',
+    ],
+    'products' => [
+        'file' => __DIR__ . '/data/products.json',
+    ],
     'paynet' => [
         'environment' => 'test', // test or prod
         'merchant_code' => 'your-merchant-code',
