@@ -15,6 +15,12 @@ return [
     'products' => [
         'file' => __DIR__ . '/data/products.json',
     ],
+    'notifications' => [
+        'enabled' => false,
+        'to' => ['orders@example.com'],
+        'from' => 'Bumbonel <orders@example.com>',
+        'reply_to' => 'orders@example.com',
+    ],
     'paynet' => [
         'environment' => 'test', // test or prod
         'merchant_code' => 'your-merchant-code',

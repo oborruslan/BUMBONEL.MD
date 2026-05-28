@@ -94,6 +94,25 @@ class OrderRepository
         return $order ?: null;
     }
 
+    public function findWithItemsByExternalId($externalId)
+    {
+        $order = $this->findByExternalId($externalId);
+        if (!$order) {
+            return null;
+        }
+
+        $stmt = $this->pdo->prepare('
+            SELECT product_id, name, quantity, unit_price, line_total, comment
+            FROM order_items
+            WHERE order_id = :order_id
+            ORDER BY id ASC
+        ');
+        $stmt->execute([':order_id' => $order['id']]);
+        $order['items'] = $stmt->fetchAll();
+
+        return $order;
+    }
+
     public function markPaynetStatus($externalId, $status, $paymentId = null)
     {
         $nextStatus = ((int)$status === 4) ? 'paid' : 'pending_payment';
@@ -109,6 +128,21 @@ class OrderRepository
             ':status' => $nextStatus,
             ':paynet_status' => $status,
             ':paynet_payment_id' => $paymentId,
+            ':updated_at' => date('Y-m-d H:i:s'),
+            ':external_id' => $externalId,
+        ]);
+    }
+
+    public function markStatus($externalId, $status)
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE orders
+            SET status = :status,
+                updated_at = :updated_at
+            WHERE external_id = :external_id
+        ");
+        $stmt->execute([
+            ':status' => $status,
             ':updated_at' => date('Y-m-d H:i:s'),
             ':external_id' => $externalId,
         ]);

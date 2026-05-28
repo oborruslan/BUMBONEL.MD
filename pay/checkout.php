@@ -63,10 +63,10 @@ try {
             'Name' => $item['name'],
             'Description' => $item['comment'] ?: $item['name'],
             'Quantity' => $item['quantity'] * 100,
-            'UnitPrice' => $item['unit_price'],
+            'UnitPrice' => $item['unit_price'] * 100,
         ];
     }, $order['items'], array_keys($order['items']));
-    $paynetRequest->Amount = $order['total_products'];
+    $paynetRequest->Amount = $order['total_products'] * 100;
     $paynetRequest->Service = [
         'Name' => 'Bumbonel',
         'Description' => 'Comanda Bumbonel #' . $created['external_id'],
