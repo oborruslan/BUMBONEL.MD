@@ -95,11 +95,6 @@ class PaymentEmailNotifier
             }
         }
 
-        $lines[] = '';
-        $lines[] = 'Date procesator plata';
-        $lines[] = '---------------------';
-        $lines[] = json_encode($payment, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-
         return implode("\n", $lines);
     }
 

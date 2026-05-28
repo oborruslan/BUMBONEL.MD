@@ -177,7 +177,7 @@ class PaynetEcomAPI
             '<input type="hidden" name="ExpiryDate"   value="' . htmlspecialchars_decode((string)$pRequest->ExpiryDate) . '"/>' .
             '<input type="hidden" name="Signature" value="' . $signature . '"/>' .
             '<input type="hidden" name="Lang" value="' . $pRequest->Lang . '"/>' .
-            '<input type="submit" value="GO to a payment gateway of paynet" />' .
+            '<input type="submit" value="Continuă către pagina de plată securizată - Paynet" />' .
             '</form>';
         $result->Data = $pp_form;
         return $result;
@@ -235,7 +235,7 @@ class PaynetEcomAPI
                         '<input type="hidden" name="ExpiryDate"   value="' . htmlspecialchars_decode((string)$pRequest->ExpiryDate) . '"/>' .
                         '<input type="hidden" name="Signature" value="' . htmlspecialchars_decode((string)($checkData['Signature'] ?? '')) . '"/>' .
                         '<input type="hidden" name="Lang" value="' . $pRequest->Lang . '"/>' .
-                        '<input type="submit" value="GO to a payment gateway of paynet" />' .
+                        '<input type="submit" value="Continuă către pagina de plată securizată - Paynet" />' .
                         '</form>';
                     $result->Data = $pp_form;
                 }
