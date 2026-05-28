@@ -13,7 +13,7 @@ return [
         'charset' => 'utf8mb4',
     ],
     'products' => [
-        'file' => __DIR__ . '/data/products.json',
+        'file' => __DIR__ . '/data/products.csv',
     ],
     'notifications' => [
         'enabled' => false,

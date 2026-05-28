@@ -134,17 +134,6 @@
             color: #fff !important;
         }
 
-        #adminNavItem .nav-link {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: #fff !important;
-        }
-
-        #adminNavItem .nav-link:hover {
-            background: var(--primary-dark);
-            border-color: var(--primary-dark);
-        }
-
         .sticky-scrollbar {
             position: fixed;
             inset: 0 0 auto 0;
@@ -548,6 +537,44 @@
             color: var(--primary);
         }
 
+        .mobile-panel-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border: 1px solid #dbe5ee;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: .75rem;
+            background: #f6f9fc;
+        }
+
+        .mobile-panel-tab {
+            border: 0;
+            background: transparent;
+            padding: .72rem .55rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .02em;
+            color: #617183;
+        }
+
+        .mobile-panel-tab + .mobile-panel-tab {
+            border-left: 1px solid #dbe5ee;
+        }
+
+        .mobile-panel-tab.active {
+            background: #fff;
+            color: var(--primary);
+            box-shadow: inset 0 -2px 0 var(--primary);
+        }
+
+        .mobile-panel-view {
+            display: none;
+        }
+
+        .mobile-panel-view.active {
+            display: block;
+        }
+
         .form-control,
         .form-select {
             border-color: #dce6ef;
@@ -924,14 +951,39 @@
             object-fit: contain;
             object-position: center;
             padding: 8px;
+            border-radius: 50%;
+            clip-path: circle(50% at 50% 50%);
             transform: scale(1);
-            filter: saturate(1.14) contrast(1.12);
-            background: linear-gradient(145deg, #f8fbff, #eef4fb);
+            filter: none;
+            background: transparent;
+        }
+
+        .subcategory-orb.transport-visual .orb-ring,
+        .subcategory-orb.transport-visual .orb-core {
+            display: none;
+        }
+
+        .subcategory-orb.exterior-visual {
+            background: #eaf2fb;
+        }
+
+        .subcategory-orb.exterior-visual .subcategory-orb-image {
+            object-fit: contain;
+            object-position: center;
+            padding: 8px;
+            transform: scale(1);
+            filter: none;
+            background: transparent;
         }
 
         .subcategory-card:hover .subcategory-orb.transport-visual .subcategory-orb-image,
         .subcategory-card.active .subcategory-orb.transport-visual .subcategory-orb-image {
-            transform: scale(1.03);
+            transform: scale(1.04);
+        }
+
+        .subcategory-card:hover .subcategory-orb.exterior-visual .subcategory-orb-image,
+        .subcategory-card.active .subcategory-orb.exterior-visual .subcategory-orb-image {
+            transform: scale(1.04);
         }
 
         .subcategory-orb.tone-indigo { --sub-orb-bg: linear-gradient(145deg, #e8dfce, #c8d7ef); }
@@ -1760,7 +1812,7 @@
                     <a class="sticky-nav-link sticky-nav-link-white" href="#tracking">Livrare</a>
                 </nav>
                 <div class="sticky-actions">
-                    <a href="#" class="sticky-icon-link" id="stickyUserAccountBtn" aria-label="Contul meu" data-bs-toggle="modal" data-bs-target="#authModal">
+                    <a href="#" class="sticky-icon-link" id="stickyUserAccountBtn" aria-label="Contul meu">
                         <i class="far fa-user"></i>
                     </a>
                     <a href="#wishlist" class="sticky-icon-link" aria-label="Favorite">
@@ -1788,6 +1840,9 @@
                 <img src="https://i.imgur.com/VGRDHYo.png" alt="Logo Bumbonel">
             </a>
             <div class="mobile-top-actions">
+                <a href="#" class="mobile-nav-button" id="mobileUserAccountBtn" aria-label="Contul meu">
+                    <i class="far fa-user"></i>
+                </a>
                 <button type="button" class="mobile-nav-button mobile-language-button" id="mobileLanguageToggle" aria-label="Schimbă limba în rusă" title="Schimbă limba în rusă">
                     <img class="language-flag" src="https://i.imgur.com/7HTt0jh.jpeg" alt="RO" aria-hidden="true">
                 </button>
@@ -1809,16 +1864,31 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Închide"></button>
         </div>
         <div class="offcanvas-body">
-            <div class="list-group">
-                <button type="button" class="list-group-item catalog-item-trigger" data-filter="promo"><i class="fas fa-tag"></i> Promoții</button>
-                <button type="button" class="list-group-item catalog-item-trigger" data-filter="haine"><i class="fas fa-shirt"></i> Haine pentru copii</button>
-                <button type="button" class="list-group-item catalog-item-trigger" data-filter="jucarii"><i class="fas fa-puzzle-piece"></i> Jucării</button>
-                <button type="button" class="list-group-item catalog-item-trigger" data-filter="exterior"><i class="fas fa-tree"></i> Jocuri în aer liber</button>
-                <button type="button" class="list-group-item catalog-item-trigger" data-filter="transport"><i class="fas fa-motorcycle"></i> Transport</button>
-                <button type="button" class="list-group-item catalog-item-trigger" data-filter="scaune auto"><i class="fas fa-car-side"></i> Scaune auto</button>
-                <button type="button" class="list-group-item catalog-item-trigger" data-filter="hranire"><i class="fas fa-utensils"></i> Scaune pentru hrană</button>
-                <button type="button" class="list-group-item catalog-item-trigger" data-filter="bebelusi"><i class="fas fa-baby"></i> Accesorii pentru bebeluși</button>
-                <button type="button" class="list-group-item catalog-item-trigger" data-filter="carti"><i class="fas fa-book"></i> Cărți</button>
+            <div class="mobile-panel-tabs" role="tablist" aria-label="Catalog si meniu mobil">
+                <button type="button" class="mobile-panel-tab active" data-mobile-panel-tab="catalog">Categorii</button>
+                <button type="button" class="mobile-panel-tab" data-mobile-panel-tab="menu">Meniu</button>
+            </div>
+            <div class="mobile-panel-view active" id="mobileCatalogView">
+                <div class="list-group">
+                    <button type="button" class="list-group-item catalog-item-trigger" data-filter="promo"><i class="fas fa-tag"></i> Promoții</button>
+                    <button type="button" class="list-group-item catalog-item-trigger" data-filter="haine"><i class="fas fa-shirt"></i> Haine pentru copii</button>
+                    <button type="button" class="list-group-item catalog-item-trigger" data-filter="jucarii"><i class="fas fa-puzzle-piece"></i> Jucării</button>
+                    <button type="button" class="list-group-item catalog-item-trigger" data-filter="exterior"><i class="fas fa-tree"></i> Jocuri în aer liber</button>
+                    <button type="button" class="list-group-item catalog-item-trigger" data-filter="transport"><i class="fas fa-motorcycle"></i> Transport</button>
+                    <button type="button" class="list-group-item catalog-item-trigger" data-filter="scaune auto"><i class="fas fa-car-side"></i> Scaune auto</button>
+                    <button type="button" class="list-group-item catalog-item-trigger" data-filter="hranire"><i class="fas fa-utensils"></i> Scaune pentru hrană</button>
+                    <button type="button" class="list-group-item catalog-item-trigger" data-filter="bebelusi"><i class="fas fa-baby"></i> Accesorii pentru bebeluși</button>
+                    <button type="button" class="list-group-item catalog-item-trigger" data-filter="carti"><i class="fas fa-book"></i> Cărți</button>
+                </div>
+            </div>
+            <div class="mobile-panel-view" id="mobileMenuView">
+                <div class="list-group">
+                    <button type="button" class="list-group-item mobile-menu-trigger" data-route="shop"><i class="fas fa-store"></i> Magazin</button>
+                    <button type="button" class="list-group-item mobile-menu-trigger" data-route="promo"><i class="fas fa-tag"></i> Reduceri</button>
+                    <button type="button" class="list-group-item mobile-menu-trigger" data-route="new"><i class="fas fa-star"></i> Produse noi</button>
+                    <button type="button" class="list-group-item mobile-menu-trigger" data-route="brands"><i class="fas fa-certificate"></i> Branduri</button>
+                    <button type="button" class="list-group-item mobile-menu-trigger" data-route="tracking"><i class="fas fa-truck"></i> Livrare</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1869,7 +1939,7 @@
             </span>
             <span class="mobile-bottom-label">Coș</span>
         </a>
-        <a href="#" class="mobile-bottom-link" id="mobileBottomAccountBtn" aria-label="Contul meu" data-bs-toggle="modal" data-bs-target="#authModal">
+        <a href="#" class="mobile-bottom-link" id="mobileBottomAccountBtn" aria-label="Contul meu">
             <span class="mobile-bottom-icon"><i class="far fa-user"></i></span>
             <span class="mobile-bottom-label">Contul meu</span>
         </a>
@@ -1882,9 +1952,9 @@
                     <img src="https://i.imgur.com/VGRDHYo.png" alt="Logo Bumbonel" style="max-height:72px; width:auto;" class="mb-3">
                     <p class="mb-2">Haine, jucării și accesorii pentru copii</p>
                     <ul class="list-unstyled mb-0">
-                        <li class="mb-1"><i class="fas fa-location-dot me-2"></i> Chișinău, Republica Moldova</li>
+                        <li class="mb-1"><i class="fas fa-location-dot me-2"></i> Ungheni, Vasile Alexandri 10</li>
                         <li class="mb-1"><i class="fas fa-phone me-2"></i> 069229828 / 069923677</li>
-                        <li><i class="fas fa-envelope me-2"></i> obor.russel@gmail.com</li>
+                        <li><i class="fas fa-envelope me-2"></i> bumbonel95@mail.ru</li>
                     </ul>
                 </div>
                 <div class="col-lg-4">
@@ -1933,7 +2003,6 @@
                     <ul class="nav nav-pills gap-2 mb-3" id="authTabs">
                         <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#loginTab" type="button">Email</button></li>
                         <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#registerTab" type="button">Cont nou</button></li>
-                        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#phoneTab" type="button">Telefon</button></li>
                         <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#forgotTab" type="button">Parolă</button></li>
                     </ul>
 
@@ -1958,32 +2027,11 @@
                                 <input type="text" id="regFullName" class="form-control mb-3 rounded-pill" autocomplete="name" required>
                                 <label class="form-label fw-semibold" for="regEmail">Email</label>
                                 <input type="email" id="regEmail" class="form-control mb-3 rounded-pill" autocomplete="email" required>
-                                <label class="form-label fw-semibold" for="regPhone">Telefon Moldova</label>
-                                <input type="tel" id="regPhone" class="form-control mb-3 rounded-pill" placeholder="068939399 sau +37368939399" autocomplete="tel">
                                 <label class="form-label fw-semibold" for="regPassword">Parolă</label>
                                 <input type="password" id="regPassword" class="form-control mb-3 rounded-pill" autocomplete="new-password" minlength="6" required>
                                 <button type="submit" class="btn btn-primary-custom w-100 rounded-pill">Creează cont</button>
                             </form>
                         </div>
-
-                        <div class="tab-pane fade" id="phoneTab">
-                            <div class="auth-note mb-3">
-                                Numerele sunt normalizate automat în format Moldova: <strong>+373</strong>.
-                            </div>
-                            <label class="form-label fw-semibold" for="phoneNumber">Număr de telefon</label>
-                            <input type="tel" id="phoneNumber" class="form-control rounded-pill" placeholder="068939399 sau +37368939399" autocomplete="tel">
-                            <button class="btn btn-outline-primary-custom w-100 rounded-pill mt-3" id="sendPhoneCodeBtn">
-                                Trimite cod SMS
-                            </button>
-                            <div id="smsVerificationDiv" class="d-none mt-3">
-                                <label class="form-label fw-semibold" for="smsCode">Cod primit prin SMS</label>
-                                <input type="text" id="smsCode" class="form-control rounded-pill" inputmode="numeric" autocomplete="one-time-code">
-                                <button class="btn btn-primary-custom w-100 rounded-pill mt-3" id="verifyPhoneCodeBtn">
-                                    Confirmă codul
-                                </button>
-                            </div>
-                        </div>
-
                         <div class="tab-pane fade" id="forgotTab">
                             <div class="mb-4">
                                 <h6 class="fw-bold">Resetare prin email</h6>
@@ -1992,32 +2040,14 @@
                                     Trimite link de resetare
                                 </button>
                             </div>
-                            <hr>
-                            <div>
-                                <h6 class="fw-bold">Confirmare prin telefon</h6>
-                                <p class="small-muted mb-2">Funcționează pentru conturile care au telefonul verificat în Firebase.</p>
-                                <input type="tel" id="resetPhone" class="form-control rounded-pill mb-2" placeholder="068939399 sau +37368939399" autocomplete="tel">
-                                <button class="btn btn-outline-primary-custom w-100 rounded-pill" id="sendPhoneResetBtn">
-                                    Trimite cod SMS
-                                </button>
-                                <div id="phoneResetCodeBlock" class="d-none mt-3">
-                                    <input type="text" id="resetPhoneCode" class="form-control rounded-pill mb-2" placeholder="Cod SMS" inputmode="numeric" autocomplete="one-time-code">
-                                    <input type="password" id="resetPhoneNewPassword" class="form-control rounded-pill mb-2" placeholder="Parolă nouă" autocomplete="new-password" minlength="6">
-                                    <button class="btn btn-primary-custom w-100 rounded-pill" id="confirmPhoneResetBtn">
-                                        Confirmă și schimbă parola
-                                    </button>
-                                </div>
                             </div>
                         </div>
-                    </div>
 
                     <div id="authMessage" class="mt-3 small fw-semibold"></div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div id="recaptcha-container"></div>
     <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -2030,21 +2060,16 @@
             signInWithEmailAndPassword,
             signInWithPopup,
             GoogleAuthProvider,
-            signInWithPhoneNumber,
-            RecaptchaVerifier,
-            PhoneAuthProvider,
             onAuthStateChanged,
             updateProfile,
             signOut,
             sendPasswordResetEmail,
-            linkWithCredential,
-            reauthenticateWithCredential,
-            updatePassword
         } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
         import {
             getFirestore,
             doc,
             getDoc,
+            getDocFromCache,
             setDoc,
             collection,
             addDoc,
@@ -2053,23 +2078,15 @@
             getDocs,
             serverTimestamp
         } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore.js";
-        import {
-            getStorage,
-            ref as storageRef,
-            uploadBytes,
-            getDownloadURL
-        } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-storage.js";
-
         const firebaseConfig = {
-            apiKey: "AIzaSyC_VZl8iJNiBWdN6OFynldEmmvTAQ9eMQk",
-            authDomain: "bumbonel-md.firebaseapp.com",
-            databaseURL: "https://bumbonel-md-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "bumbonel-md",
-            storageBucket: "bumbonel-md.firebasestorage.app",
-            messagingSenderId: "875352617139",
-            appId: "1:875352617139:web:eb875789c35ffe363180c6",
-            measurementId: "G-N7MBQG57ZV"
-        };
+  apiKey: "AIzaSyAIv20nUY0kZr2hRJPyLXD1iJ1hJCATGrU",
+  authDomain: "bumbonel-md-4b485.firebaseapp.com",
+  projectId: "bumbonel-md-4b485",
+  storageBucket: "bumbonel-md-4b485.firebasestorage.app",
+  messagingSenderId: "169744938030",
+  appId: "1:169744938030:web:d366ceeb8939c5a68cdbbf",
+  measurementId: "G-Z8P13LNH76"
+};
 
         const LANGUAGE_KEY = "bumbonel_language";
         let currentLanguage = localStorage.getItem(LANGUAGE_KEY) === "ru" ? "ru" : "ro";
@@ -2078,28 +2095,20 @@
         const auth = getAuth(firebaseApp);
         auth.languageCode = currentLanguage;
         const db = getFirestore(firebaseApp);
-        const storage = getStorage(firebaseApp);
         const googleProvider = new GoogleAuthProvider();
 
         const GUEST_CART_KEY = "bumbonel_guest_cart";
         const GUEST_WISHLIST_KEY = "bumbonel_guest_wishlist";
-
         let cart = [];
         let wishlist = [];
         let purchasedProducts = [];
         let currentUser = null;
         let accountProfile = null;
         let accountHydrating = false;
-        let authReady = false;
         let paynetNoticeShown = false;
         let syncTimer = null;
         let currentPage = window.location.hash.slice(1) || "home";
         let pendingFilter = null;
-        let recaptchaVerifier = null;
-        let phoneLoginConfirmation = null;
-        let phoneResetConfirmation = null;
-        let linkPhoneVerificationId = null;
-        let passwordSmsVerificationId = null;
 
         const appEl = document.getElementById("app");
 
@@ -2179,7 +2188,7 @@
             ["Curier Nova Poshta Moldova", "Курьер Nova Poshta Moldova"],
             ["Curier DPD Moldova", "Курьер DPD Moldova"],
             ["Poșta Moldovei", "Почта Молдовы"],
-            ["Ridicare personală - Stăuceni, str. Constructorilor 5", "Самовывоз - Стаучены, ул. Constructorilor 5"],
+            ["Ridicare personală - Ungheni, Vasile Alexandri 10", "Самовывоз - Унгены, Василе Александри 10"],
             ["Metodă plată", "Способ оплаты"],
             ["Card bancar", "Банковская карта"],
             ["Ramburs la livrare", "Оплата при получении"],
@@ -2280,7 +2289,6 @@
             ["Pennyboard", "Пенниборды"],
             ["Echipament de protecție", "Защитная экипировка"],
             ["Compatibilitate WooCommerce (TopHost)", "Совместимость WooCommerce (TopHost)"],
-            ["Genereaza CSV pentru metoda Products -> Import si deschide direct pagina de import din wp-admin.", "Сгенерируйте CSV для метода Products -> Import и откройте страницу импорта в wp-admin."],
             ["Domeniu magazin WordPress", "Домен магазина WordPress"],
             ["Salveaza domeniul", "Сохранить домен"],
             ["Deschide Import Woo", "Открыть импорт Woo"],
@@ -2290,8 +2298,16 @@
             ["Setarile WooCommerce au fost salvate.", "Настройки WooCommerce сохранены."],
             ["Nu exista produse active pentru export CSV.", "Нет активных товаров для экспорта CSV."]
         ];
-        const roToRuText = new Map(languagePairs);
-        const ruToRoText = new Map(languagePairs.map(([ro, ru]) => [ru, ro]));
+
+        function buildDecodedPairs(pairs = []) {
+            return (Array.isArray(pairs) ? pairs : [])
+                .map((entry) => Array.isArray(entry) ? entry : ["", ""])
+                .map(([ro, ru]) => [decodeMojibakeText(ro), decodeMojibakeText(ru)]);
+        }
+
+        const decodedLanguagePairs = buildDecodedPairs(languagePairs);
+        const roToRuText = new Map(decodedLanguagePairs);
+        const ruToRoText = new Map(decodedLanguagePairs.map(([ro, ru]) => [ru, ro]));
         const placeholderPairs = [
             ["Caută produse...", "Поиск товаров..."],
             ["Nume complet", "Полное имя"],
@@ -2303,14 +2319,16 @@
             ["Cod SMS", "SMS-код"],
             ["Parolă nouă", "Новый пароль"]
         ];
-        const roToRuPlaceholder = new Map(placeholderPairs);
-        const ruToRoPlaceholder = new Map(placeholderPairs.map(([ro, ru]) => [ru, ro]));
+        const decodedPlaceholderPairs = buildDecodedPairs(placeholderPairs);
+        const roToRuPlaceholder = new Map(decodedPlaceholderPairs);
+        const ruToRoPlaceholder = new Map(decodedPlaceholderPairs.map(([ro, ru]) => [ru, ro]));
 
         function replacePreservingSpace(value, replacements) {
-            const trimmed = value.trim();
+            const source = decodeMojibakeText(String(value ?? ""));
+            const trimmed = source.trim();
             const replacement = replacements.get(trimmed);
-            if (!replacement) return value;
-            return value.replace(trimmed, replacement);
+            if (!replacement) return source;
+            return source.replace(trimmed, replacement);
         }
 
         function translateDynamicLanguageText(value) {
@@ -2328,14 +2346,14 @@
                 .replace(/Показано\s+(\d+)-(\d+)\s+из\s+(\d+)\s+результатов/g, "Afișez $1-$2 din $3 rezultate")
                 .replace(/(\d+)\s*\/\s*страница/g, "$1 / pagină");
         }
+
         function updateLanguageButtons() {
             const isRussian = currentLanguage === "ru";
             const roFlag = "https://i.imgur.com/7HTt0jh.jpeg";
             const ruFlag = "https://i.imgur.com/7zBL8Xo.jpeg";
-            const flag = isRussian
-                ? ruFlag
-                : roFlag;
+            const flag = isRussian ? ruFlag : roFlag;
             const label = isRussian ? "Переключить на румынский" : "Schimbă limba în rusă";
+
             document.querySelectorAll("#languageToggle, #stickyLanguageToggle, #mobileLanguageToggle").forEach((button) => {
                 const flagEl = button.querySelector(".language-flag");
                 if (flagEl) {
@@ -2348,13 +2366,17 @@
         }
 
         function applyLanguage() {
+            fixMojibakeInDocument();
+
             const textMap = currentLanguage === "ru"
                 ? new Map([...roToRuText, ...roToRuProductText])
                 : new Map([...ruToRoText, ...ruToRoProductText]);
             const placeholderMap = currentLanguage === "ru" ? roToRuPlaceholder : ruToRoPlaceholder;
             document.documentElement.lang = currentLanguage;
             auth.languageCode = currentLanguage;
-            document.title = currentLanguage === "ru" ? "Bumbonel - Товары для детей" : "Bumbonel - Jucării pentru copii";
+            document.title = currentLanguage === "ru"
+                ? "Bumbonel - Товары для детей"
+                : "Bumbonel - Jucării pentru copii";
 
             const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
                 acceptNode(node) {
@@ -2367,16 +2389,38 @@
             });
             const textNodes = [];
             while (walker.nextNode()) textNodes.push(walker.currentNode);
+
             textNodes.forEach((node) => {
-                const staticTranslated = replacePreservingSpace(node.nodeValue, textMap);
+                const decoded = decodeMojibakeText(node.nodeValue);
+                const staticTranslated = replacePreservingSpace(decoded, textMap);
                 node.nodeValue = translateDynamicLanguageText(staticTranslated);
             });
 
             document.querySelectorAll("input[placeholder], textarea[placeholder]").forEach((field) => {
-                field.placeholder = replacePreservingSpace(field.placeholder, placeholderMap);
+                const decodedPlaceholder = decodeMojibakeText(field.placeholder || "");
+                field.placeholder = replacePreservingSpace(decodedPlaceholder, placeholderMap);
+            });
+
+            document.querySelectorAll("[title], [aria-label], [alt]").forEach((el) => {
+                ["title", "aria-label", "alt"].forEach((attr) => {
+                    const current = el.getAttribute(attr);
+                    if (!current) return;
+                    const decoded = decodeMojibakeText(current);
+                    const translated = replacePreservingSpace(decoded, textMap);
+                    el.setAttribute(attr, translateDynamicLanguageText(translated));
+                });
+            });
+
+            document.querySelectorAll("input[value], button[value]").forEach((el) => {
+                const current = el.getAttribute("value");
+                if (!current || /^\d+$/.test(current.trim())) return;
+                const decoded = decodeMojibakeText(current);
+                const translated = replacePreservingSpace(decoded, textMap);
+                el.setAttribute("value", translateDynamicLanguageText(translated));
             });
 
             updateLanguageButtons();
+            fixMojibakeInDocument();
         }
 
         function toggleLanguage() {
@@ -2402,11 +2446,9 @@
                 const products = await response.json();
                 if (!Array.isArray(products)) throw new Error("Catalogul de produse este invalid.");
                 window.allProducts = products;
-                fallbackProducts = products.map((product) => ({ ...product }));
             } catch (error) {
                 console.error("Nu am putut incarca produsele:", error);
                 window.allProducts = [];
-                fallbackProducts = [];
             }
         }
 
@@ -2640,6 +2682,215 @@ const ruProductMap = {
         const ruToRoProductText = new Map(Array.from(roToRuProductText.entries(), ([ro, ru]) => [ru, ro]));
 
         const moldovaCities = ["Chișinău", "Bălți", "Tiraspol", "Bender", "Râbnița", "Cahul", "Ungheni", "Soroca", "Orhei", "Dubăsari", "Comrat", "Edineț", "Căușeni", "Strășeni", "Cricova", "Florești", "Slobozia", "Drochia", "Briceni", "Vulcănești", "Ialoveni", "Hîncești", "Cimișlia", "Leova", "Basarabeasca", "Cantemir", "Glodeni", "Fălești", "Sîngerei", "Telenești", "Șoldănești", "Rezina", "Dondușeni", "Ocnița", "Anenii Noi", "Criuleni", "Nisporeni", "Călărași", "Taraclia", "Ștefan Vodă"];
+        const STORE_ADDRESS_LABEL = "Ungheni, Vasile Alexandri 10";
+        const STORE_PICKUP_LABEL = `Ridicare personală - ${STORE_ADDRESS_LABEL}`;
+        const MOJIBAKE_PATTERN = /(?:\u00C3.|\u00C4.|\u00C5.|\u00C8.|\u00C2.|\u00D0.|\u00D1.|\u00E2.)/;
+
+        const MOJIBAKE_REPLACEMENTS = [
+            [/\u00C3\u201E\u00C6\u2019/g, "\u0103"],
+            [/\u00C3\u201E\u00C6\u201A/g, "\u0102"],
+            [/\u00C3\u0192\u00C2\u00A2/g, "\u00E2"],
+            [/\u00C3\u0192\u00C2\u00AE/g, "\u00EE"],
+            [/\u00C3\u0192\u00C5\u00BD/g, "\u00CE"],
+            [/\u00C3\u02C6\u00E2\u201E\u00A2/g, "\u0219"],
+            [/\u00C3\u02C6\u00CB\u0153/g, "\u0218"],
+            [/\u00C3\u02C6\u00E2\u20AC\u00BA/g, "\u021B"],
+            [/\u00C3\u02C6\u00C5\u00A2/g, "\u021A"],
+            [/\u00C4\u0192/g, "\u0103"],
+            [/\u00C4\u201A/g, "\u0102"],
+            [/\u00C3\u00A2/g, "\u00E2"],
+            [/\u00C3\u00AE/g, "\u00EE"],
+            [/\u00C3\u017D/g, "\u00CE"],
+            [/\u00C8\u2122/g, "\u0219"],
+            [/\u00C8\u02DC/g, "\u0218"],
+            [/\u00C8\u203A/g, "\u021B"],
+            [/\u00C8\u0161/g, "\u021A"],
+            [/\u00E2\u20AC\u2122/g, "'"],
+            [/\u00E2\u20AC\u017E/g, '"'],
+            [/\u00E2\u20AC\u0153/g, '"'],
+            [/\u00E2\u20AC\u201C/g, "-"],
+            [/\u00E2\u20AC\u201D/g, "-"],
+            [/\u00C2\u00A0/g, " "],
+            [/\u00C2 /g, " "]
+        ];
+
+        const CP1252_REVERSE = new Map([
+            ["€", 0x80], ["‚", 0x82], ["ƒ", 0x83], ["„", 0x84], ["…", 0x85], ["†", 0x86], ["‡", 0x87],
+            ["ˆ", 0x88], ["‰", 0x89], ["Š", 0x8A], ["‹", 0x8B], ["Œ", 0x8C], ["Ž", 0x8E], ["‘", 0x91],
+            ["’", 0x92], ["“", 0x93], ["”", 0x94], ["•", 0x95], ["–", 0x96], ["—", 0x97], ["˜", 0x98],
+            ["™", 0x99], ["š", 0x9A], ["›", 0x9B], ["œ", 0x9C], ["ž", 0x9E], ["Ÿ", 0x9F]
+        ]);
+
+        function toCp1252Bytes(input) {
+            const bytes = [];
+            for (const ch of Array.from(input)) {
+                const code = ch.codePointAt(0);
+                if (code <= 0xFF) {
+                    bytes.push(code);
+                    continue;
+                }
+                const mapped = CP1252_REVERSE.get(ch);
+                if (mapped !== undefined) {
+                    bytes.push(mapped);
+                    continue;
+                }
+                return null;
+            }
+            return Uint8Array.from(bytes);
+        }
+
+        function decodeMojibakeText(value) {
+            const input = String(value ?? "");
+            if (!decodeMojibakeText._cache) {
+                decodeMojibakeText._cache = {
+                    pattern: /(?:\u00C3.|\u00C4.|\u00C5.|\u00C8.|\u00C2.|\u00D0.|\u00D1.|\u00E2.)/,
+                    replacements: [
+                        [/\u00C3\u201E\u00C6\u2019/g, "\u0103"],
+                        [/\u00C3\u201E\u00C6\u201A/g, "\u0102"],
+                        [/\u00C3\u0192\u00C2\u00A2/g, "\u00E2"],
+                        [/\u00C3\u0192\u00C2\u00AE/g, "\u00EE"],
+                        [/\u00C3\u0192\u00C5\u00BD/g, "\u00CE"],
+                        [/\u00C3\u02C6\u00E2\u201E\u00A2/g, "\u0219"],
+                        [/\u00C3\u02C6\u00CB\u0153/g, "\u0218"],
+                        [/\u00C3\u02C6\u00E2\u20AC\u00BA/g, "\u021B"],
+                        [/\u00C3\u02C6\u00C5\u00A2/g, "\u021A"],
+                        [/\u00C4\u0192/g, "\u0103"],
+                        [/\u00C4\u201A/g, "\u0102"],
+                        [/\u00C3\u00A2/g, "\u00E2"],
+                        [/\u00C3\u00AE/g, "\u00EE"],
+                        [/\u00C3\u017D/g, "\u00CE"],
+                        [/\u00C8\u2122/g, "\u0219"],
+                        [/\u00C8\u02DC/g, "\u0218"],
+                        [/\u00C8\u203A/g, "\u021B"],
+                        [/\u00C8\u0161/g, "\u021A"],
+                        [/\u00E2\u20AC\u2122/g, "'"],
+                        [/\u00E2\u20AC\u017E/g, '"'],
+                        [/\u00E2\u20AC\u0153/g, '"'],
+                        [/\u00E2\u20AC\u201C/g, "-"],
+                        [/\u00E2\u20AC\u201D/g, "-"],
+                        [/\u00C2\u00A0/g, " "],
+                        [/\u00C2 /g, " "]
+                    ],
+                    cp1252Reverse: new Map([
+                        ["€", 0x80], ["‚", 0x82], ["ƒ", 0x83], ["„", 0x84], ["…", 0x85], ["†", 0x86], ["‡", 0x87],
+                        ["ˆ", 0x88], ["‰", 0x89], ["Š", 0x8A], ["‹", 0x8B], ["Œ", 0x8C], ["Ž", 0x8E], ["‘", 0x91],
+                        ["’", 0x92], ["“", 0x93], ["”", 0x94], ["•", 0x95], ["–", 0x96], ["—", 0x97], ["˜", 0x98],
+                        ["™", 0x99], ["š", 0x9A], ["›", 0x9B], ["œ", 0x9C], ["ž", 0x9E], ["Ÿ", 0x9F]
+                    ])
+                };
+            }
+
+            const { pattern, replacements, cp1252Reverse } = decodeMojibakeText._cache;
+            if (!input || !pattern.test(input)) return input;
+
+            const toBytes = (text) => {
+                const bytes = [];
+                for (const ch of Array.from(text)) {
+                    const code = ch.codePointAt(0);
+                    if (code <= 0xFF) {
+                        bytes.push(code);
+                        continue;
+                    }
+                    const mapped = cp1252Reverse.get(ch);
+                    if (mapped !== undefined) {
+                        bytes.push(mapped);
+                        continue;
+                    }
+                    return null;
+                }
+                return Uint8Array.from(bytes);
+            };
+
+            let working = input;
+
+            for (let i = 0; i < 4; i += 1) {
+                let replaced = working;
+                replacements.forEach(([sourcePattern, replacement]) => {
+                    replaced = replaced.replace(sourcePattern, replacement);
+                });
+
+                const bytes = toBytes(replaced);
+                if (!bytes) {
+                    working = replaced;
+                    break;
+                }
+
+                const decoded = new TextDecoder("utf-8", { fatal: false }).decode(bytes);
+                if (
+                    !decoded ||
+                    decoded.includes("\uFFFD") ||
+                    /[\x00-\x08\x0B\x0C\x0E-\x1F]/.test(decoded)
+                ) {
+                    working = replaced;
+                    break;
+                }
+
+                if (decoded === replaced && replaced === working) {
+                    working = replaced;
+                    break;
+                }
+
+                working = decoded;
+            }
+
+            replacements.forEach(([sourcePattern, replacement]) => {
+                working = working.replace(sourcePattern, replacement);
+            });
+
+            return working || input;
+        }
+        function fixMojibakeInDocument(root = document.body) {
+            if (!root) return;
+            const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+                acceptNode(node) {
+                    const parent = node.parentElement;
+                    if (!parent || ["SCRIPT", "STYLE"].includes(parent.tagName)) return NodeFilter.FILTER_REJECT;
+                    if (!node.nodeValue || !MOJIBAKE_PATTERN.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
+                    return NodeFilter.FILTER_ACCEPT;
+                }
+            });
+            const textNodes = [];
+            while (walker.nextNode()) textNodes.push(walker.currentNode);
+            textNodes.forEach((node) => {
+                const fixed = decodeMojibakeText(node.nodeValue);
+                if (fixed !== node.nodeValue) node.nodeValue = fixed;
+            });
+
+            root.querySelectorAll("[title], [aria-label], [alt], input[placeholder], textarea[placeholder]").forEach((el) => {
+                ["title", "aria-label", "alt", "placeholder"].forEach((attr) => {
+                    const current = el.getAttribute(attr);
+                    if (!current || !MOJIBAKE_PATTERN.test(current)) return;
+                    const fixed = decodeMojibakeText(current);
+                    if (fixed !== current) el.setAttribute(attr, fixed);
+                });
+            });
+        }
+
+        function escapeHtml(value) {
+            return decodeMojibakeText(String(value ?? ""))
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+
+        function money(value) {
+            const number = Number(value || 0);
+            return Number.isInteger(number) ? `${number} MDL` : `${number.toFixed(2)} MDL`;
+        }
+
+        function normalize(str) {
+            const source = decodeMojibakeText(String(str || ""));
+            return source
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/[ăâ]/g, "a")
+                .replace(/î/g, "i")
+                .replace(/[șş]/g, "s")
+                .replace(/[țţ]/g, "t");
+        }
 
         function handlePaynetReturnNotice() {
             if (paynetNoticeShown) return;
@@ -2660,29 +2911,6 @@ const ruProductMap = {
             paynetNoticeShown = true;
             showToast(notice.text, notice.type);
             window.history.replaceState({}, document.title, `${window.location.pathname}${window.location.hash || "#account"}`);
-        }
-
-        function escapeHtml(value) {
-            return String(value ?? "")
-                .replaceAll("&", "&amp;")
-                .replaceAll("<", "&lt;")
-                .replaceAll(">", "&gt;")
-                .replaceAll('"', "&quot;")
-                .replaceAll("'", "&#039;");
-        }
-
-        function money(value) {
-            const number = Number(value || 0);
-            return Number.isInteger(number) ? `${number} MDL` : `${number.toFixed(2)} MDL`;
-        }
-
-        function normalize(str) {
-            return String(str || "")
-                .toLowerCase()
-                .replace(/[ăâ]/g, "a")
-                .replace(/[î]/g, "i")
-                .replace(/[șş]/g, "s")
-                .replace(/[țţ]/g, "t");
         }
 
         const SEARCH_STOP_WORDS = new Set([
@@ -2722,7 +2950,9 @@ const ruProductMap = {
             zornaitoare: ["zornaitoare", "rattle"],
             trambuline: ["trambulina"],
             gonflabile: ["gonflabil", "inflatabil"],
-            premergatoare: ["premergator", "walker"]
+            premergatoare: ["premergator", "walker"],
+            moto: ["motociclet", "motocicleta", "motociclete", "atv"],
+            motociclete: ["motocicleta", "motociclet", "moto", "atv"]
         };
 
         const SEARCH_SUFFIXES = [
@@ -2739,6 +2969,8 @@ const ruProductMap = {
             const cleaned = cleanSearchToken(token);
             if (!cleaned) return "";
             for (const suffix of SEARCH_SUFFIXES) {
+                if (suffix.length === 1 && cleaned.length <= 5) continue;
+                if (suffix.length === 2 && cleaned.length <= 4) continue;
                 if (cleaned.length > suffix.length + 2 && cleaned.endsWith(suffix)) {
                     return cleaned.slice(0, -suffix.length);
                 }
@@ -2796,13 +3028,31 @@ const ruProductMap = {
             const variants = expandSearchToken(queryToken);
             return variants.some((variant) => {
                 if (productTokens.has(variant)) return true;
-                if (variant.length < 4) return false;
+                if (variant.length < 5) return false;
                 for (const productToken of productTokens) {
-                    if (productToken.length < 4) continue;
-                    if (productToken.startsWith(variant) || variant.startsWith(productToken)) return true;
+                    if (productToken.length < 5) continue;
+                    if (productToken.startsWith(variant)) return true;
                 }
                 return false;
             });
+        }
+
+        function buildProductTokenSet(value) {
+            const tokens = tokenizeSearchText(value);
+            const tokenSet = new Set();
+            tokens.forEach((token) => {
+                tokenSet.add(token);
+                tokenSet.add(stemSearchToken(token));
+            });
+            return tokenSet;
+        }
+
+        function getProductTokenBuckets(product) {
+            return {
+                category: buildProductTokenSet(`${product?.category || ""} ${product?.subcategory || ""}`),
+                name: buildProductTokenSet(product?.name || ""),
+                description: buildProductTokenSet(`${product?.shortDescription || ""} ${product?.description || ""}`)
+            };
         }
 
         function getFilterTokens(filterSource) {
@@ -2826,6 +3076,187 @@ const ruProductMap = {
             const required = minMatchesOverride ?? (queryTokens.length >= 4 ? 2 : 1);
             return matchedCount >= required;
         }
+
+        const ROUTE_SCOPE_RULES = {
+            jucarii: {
+                include: ["jucari", "puzzle", "lego", "papus", "plus", "figur", "robot", "construct", "instrument", "telecomand", "rol", "creativ", "plastilin", "mozaic", "sezon", "bule", "nisip", "cosmetic", "autospecial", "tren", "masin", "moto"],
+                exclude: ["carti", "carte", "book", "transport pentru copii", "pentru bebelusi", "camping si sport", "piscine si accesorii intex"]
+            },
+            transport: {
+                include: ["transport", "biciclet", "triciclet", "trotinet", "tolocar", "pennyboard", "role", "pedal", "casca", "protect", "electr", "motociclet", "tractor", "masini si motociclete electrice"],
+                exclude: ["carte", "carti", "book", "bebelus"]
+            },
+            exterior: {
+                include: ["aer liber", "camping", "sport", "casut", "tobogan", "trambulin", "scranciob", "mingi", "gonflab", "cort", "masa", "scaun", "nisip", "piscin", "colaci", "saltele", "inot"],
+                exclude: ["carte", "carti", "book"]
+            },
+            bebelusi: {
+                include: ["bebelus", "zornaito", "dentit", "baie", "muzical", "dezvoltar", "sortare", "lemn", "cadit", "olita", "covoras", "premerg", "carusel", "suzeta", "baby"],
+                exclude: ["carte", "carti", "book", "transport pentru copii", "camping si sport"]
+            },
+            carti: {
+                include: ["carte", "carti", "book", "poveste", "povesti", "encicloped", "atlas", "lectura", "literatura", "abecedar"],
+                exclude: ["transport", "biciclet", "triciclet", "trotinet", "tolocar", "pedale", "jucarii sport", "camping"]
+            }
+        };
+
+        function includesAnyKeyword(text, keywords = []) {
+            return (Array.isArray(keywords) ? keywords : []).some((keyword) => text.includes(normalize(keyword)));
+        }
+
+        function getProductScopeText(product) {
+            return normalize(`${product?.category || ""} ${product?.subcategory || ""} ${product?.name || ""} ${product?.description || ""}`);
+        }
+
+        function productMatchesRouteScope(product, routeKey) {
+            const rule = ROUTE_SCOPE_RULES[routeKey];
+            if (!rule) return true;
+            const text = getProductScopeText(product);
+            if (!text) return false;
+            if (includesAnyKeyword(text, rule.exclude)) return false;
+            return includesAnyKeyword(text, rule.include);
+        }
+
+        function getStrictFilterTokens(filterSource) {
+            const sourceValue = typeof filterSource === "string"
+                ? filterSource
+                : `${filterSource?.query || ""} ${filterSource?.label || filterSource?.name || ""} ${filterSource?.id || ""}`;
+            return Array.from(new Set(tokenizeSearchText(sourceValue)
+                .map((token) => stemSearchToken(token))
+                .filter((token) => token && !SEARCH_GENERIC_TOKENS.has(token) && !SEARCH_GENERIC_STEMS.has(token))));
+        }
+
+        const HUB_FILTER_RULES = {
+            "pistoale-bile-gloante-moi": {
+                include: ["pistol", "blaster", "pusca", "arma", "automat", "gloant", "bile", "soft"],
+                exclude: ["piscin", "bazin", "saltea", "colac", "intex", "mozaic", "puzzle", "carte"]
+            },
+            "pe-baterii": {
+                include: ["pistol", "blaster", "pusca", "arma", "automat", "sabie", "arc"],
+                nameInclude: ["bater", "lumini", "sunete", "spray", "laser"],
+                exclude: ["piscin", "bazin", "saltea", "colac", "intex", "mozaic", "puzzle", "carte"]
+            },
+            "accesorii-arme": {
+                include: ["gloant", "bile", "rezerv", "cartus", "incarcator", "tinta", "accesor"],
+                alsoRequireAny: ["pistol", "arma", "blaster", "gloant", "bile"],
+                exclude: ["piscin", "bazin", "saltea", "colac", "intex", "mozaic", "puzzle", "carte", "autospecial", "biciclet"]
+            },
+            "seturi-eroi": {
+                bypassStrict: true,
+                include: ["erou", "eroi", "super erou", "avengers", "superman", "batman", "spider", "transformer", "figurina"],
+                exclude: ["dinozaur", "barca", "piscin", "bazin", "puzzle", "carte", "mozaic", "bucatari", "electrocasnic", "masina"]
+            },
+            moto: {
+                bypassStrict: true,
+                include: ["motociclet", "moto", "atv"],
+                nameInclude: ["motociclet", "moto", "atv"],
+                exclude: ["piscin", "bazin", "carte", "puzzle", "bucatari", "papusa"]
+            },
+            "masini-metal": {
+                include: ["masin", "metal", "machet", "scara"],
+                alsoRequireAny: ["metal", "machet", "scara", "msz"],
+                exclude: ["piscin", "bazin", "puzzle", "carte"]
+            },
+            "masini-plastic": {
+                include: ["masin", "plastic", "transport"],
+                alsoRequireAny: ["masin", "autobuz", "tractor", "camion"],
+                exclude: ["metal", "machet", "scara", "msz", "piscin", "bazin", "puzzle", "carte"]
+            },
+            protectie: {
+                include: ["protectie", "casca", "cotiere", "genunchiere", "echipament"],
+                exclude: ["piscin", "bazin", "saltea", "colac", "intex", "mozaic", "puzzle", "carte"]
+            },
+            biciclete: {
+                include: ["biciclet"],
+                requirePositivePrice: true
+            },
+            role: {
+                bypassStrict: true,
+                include: ["role", "patine", "rollers"],
+                exclude: ["jocuri de rol", "piscin", "bazin", "intex", "carte", "puzzle", "bucatari"]
+            }
+        };
+
+        const SHOP_FILTER_RULES = {
+            "scaune auto": {
+                include: ["scaun auto", "isofix", "booster", "inaltator auto", "auto seat"],
+                categoryInclude: ["scaun auto"],
+                nameInclude: ["scaun", "auto"],
+                exclude: ["jucarie", "bucatari", "mancare", "papusa", "set", "birou"],
+                requirePositivePrice: true
+            }
+        };
+
+        function matchesKeywordSet(text, keywords = []) {
+            const normalized = normalize(text);
+            return (Array.isArray(keywords) ? keywords : []).some((keyword) => {
+                const token = normalize(keyword);
+                return token && normalized.includes(token);
+            });
+        }
+
+        function matchesStructuredFilterRule(product, rule) {
+            if (!rule) return true;
+            const fullText = normalize(`${product?.name || ""} ${product?.category || ""} ${product?.subcategory || ""} ${product?.shortDescription || ""} ${product?.description || ""}`);
+            const categoryText = normalize(`${product?.category || ""} ${product?.subcategory || ""}`);
+            const nameText = normalize(product?.name || "");
+
+            if (Array.isArray(rule.exclude) && matchesKeywordSet(fullText, rule.exclude)) return false;
+            if (Array.isArray(rule.include) && rule.include.length && !matchesKeywordSet(fullText, rule.include)) return false;
+            if (Array.isArray(rule.categoryInclude) && rule.categoryInclude.length && !matchesKeywordSet(categoryText, rule.categoryInclude)) return false;
+            if (Array.isArray(rule.nameInclude) && rule.nameInclude.length && !matchesKeywordSet(nameText, rule.nameInclude)) return false;
+            if (Array.isArray(rule.alsoRequireAny) && rule.alsoRequireAny.length && !matchesKeywordSet(fullText, rule.alsoRequireAny)) return false;
+            if (rule.requirePositivePrice && !(Number(product?.price || 0) > 0)) return false;
+
+            return true;
+        }
+
+        function getHubFilterRule(filterSource) {
+            const filterId = String(filterSource?.id || "");
+            if (!filterId) return null;
+            return HUB_FILTER_RULES[filterId] || null;
+        }
+
+        function getShopFilterRule(filterTerm) {
+            const normalized = normalize(String(filterTerm || "").trim());
+            return SHOP_FILTER_RULES[normalized] || null;
+        }
+
+        function matchesFilterSourceStrict(product, filterSource) {
+            const queryTokens = getStrictFilterTokens(filterSource);
+            if (!queryTokens.length) return true;
+            const buckets = getProductTokenBuckets(product);
+
+            const countMatches = (bucket) => queryTokens.reduce((count, token) => (
+                tokenVariantMatchesProduct(bucket, token) ? count + 1 : count
+            ), 0);
+
+            const categoryMatches = countMatches(buckets.category);
+            const nameMatches = countMatches(buckets.name);
+            const descriptionMatches = countMatches(buckets.description);
+            const directMatches = categoryMatches + nameMatches;
+            const totalMatches = directMatches + descriptionMatches;
+
+            if (queryTokens.length === 1) return directMatches >= 1;
+            if (categoryMatches >= 1 && nameMatches >= 1) return true;
+            if (directMatches >= 2) return true;
+            if (queryTokens.length >= 3 && categoryMatches >= 1 && totalMatches >= 2) return true;
+            return false;
+        }
+
+        function filterProductsForHubPage(products, routeKey, selectedFilter) {
+            let filtered = (Array.isArray(products) ? products : []).filter((product) => productMatchesRouteScope(product, routeKey));
+            if (selectedFilter) {
+                const specialRule = getHubFilterRule(selectedFilter);
+                filtered = filtered.filter((product) => {
+                    if (!specialRule?.bypassStrict && !matchesFilterSourceStrict(product, selectedFilter)) return false;
+                    if (specialRule && !matchesStructuredFilterRule(product, specialRule)) return false;
+                    return true;
+                });
+            }
+            return filtered;
+        }
+
         function hashSeed(value) {
             const input = String(value || "");
             let hash = 0;
@@ -3129,83 +3560,83 @@ const ruProductMap = {
         };
 
         const localSubcategoryImageById = {
-            "jucarii-plus": "./catalog_images/jucarii_din_plus.png",
-            "arme-accesorii": "./catalog_images/arme_si_accesorii.png",
-            "pistoale-bile-gloante-moi": "./catalog_images/pistoale_cu_bile.png",
-            "pe-baterii": "./catalog_images/pistoale_cu_bile.png",
-            "accesorii-arme": "./catalog_images/arme_si_accesorii.png",
-            "creativitate": "./catalog_images/creativitate.png",
-            "lego": "./catalog_images/lego.png",
-            "puzzle": "./catalog_images/puzzle.png",
-            "personaje-figurine": "./catalog_images/personaje_si_figurine.png",
-            "seturi-eroi": "./catalog_images/seturi_eroi_roboti_animale.png",
-            "roboti": "./catalog_images/seturi_eroi_roboti_animale.png",
-            "animale-interactive": "./catalog_images/seturi_eroi_roboti_animale.png",
-            "seturi-constructie": "./catalog_images/seturi_constructie.png",
-            "seturi-miciuti": "./catalog_images/seturi_constructie.png",
-            "jucarii-ansamblu": "./catalog_images/seturi_constructie.png",
-            "metal": "./catalog_images/metal_set_constructor.png",
-            "trenuri-vehicule": "./catalog_images/tractoare_trenuri_motoare.png",
-            "masini-metal": "./catalog_images/masini_metalice.png",
-            "tractorase": "./catalog_images/tractoare_trenuri_motoare.png",
-            "trenuri": "./catalog_images/tractoare_trenuri_motoare.png",
-            "moto": "./catalog_images/tractoare_trenuri_motoare.png",
-            "masini-plastic": "./catalog_images/tractoare_trenuri_motoare.png",
-            "papusi-case": "./catalog_images/papusi_si_case.png",
-            "papusi": "./catalog_images/papusi_si_case.png",
-            "case-papusi": "./catalog_images/papusi_si_case.png",
-            "carucioare": "./catalog_images/playset_case_papusi.png",
-            "instrumente": "./catalog_images/instrumente_muzicale.png",
-            "telecomanda": "./catalog_images/jucarii_telecomanda.png",
-            "animale-rc": "./catalog_images/seturi_eroi_roboti_animale.png",
-            "autospeciale-rc": "./catalog_images/avioane_autospeciale.png",
-            "elicoptere-rc": "./catalog_images/avioane_autospeciale.png",
-            "masini-rc": "./catalog_images/jucarii_telecomanda.png",
-            "rol": "./catalog_images/bucatarii_jucarii_electrocasnice.png",
-            "set-doctor": "./catalog_images/set_doctor.png",
-            "set-curatenie": "./catalog_images/set_curatenie.png",
-            "pusculite": "./catalog_images/pusculite.png",
-            "bucatarii-alimente": "./catalog_images/bucatarii_jucarii_electrocasnice.png",
-            "electrocasnice": "./catalog_images/bucatarii_jucarii_electrocasnice.png",
-            "creativitate-hobby": "./catalog_images/pictura_plastilina_nisip_magic.png",
-            "pictura-numere": "./catalog_images/pictura_plastilina_nisip_magic.png",
-            "plastilina-nisip": "./catalog_images/pictura_plastilina_nisip_magic.png",
-            "mozaic": "./catalog_images/pictura_plastilina_nisip_magic.png",
-            "mozaic-diamante": "./catalog_images/pictura_plastilina_nisip_magic.png",
-            "sezoniere": "./catalog_images/bule_sapun_seturi_nisip.png",
-            "bule-sapun": "./catalog_images/bule_sapun_seturi_nisip.png",
-            "seturi-nisip": "./catalog_images/bule_sapun_seturi_nisip.png",
-            "piscine-intex": "./catalog_images/piscine_intex.png",
-            "cosmetice": "./catalog_images/cosmetice_accesorii.png",
-            "casute": "./catalog_images/casute.png",
-            "tobogane": "./catalog_images/tobogane.png",
-            "trambuline": "./catalog_images/trambuline.png",
-            "scranciob": "./catalog_images/scranciob.png",
-            "jucarii-sport": "./catalog_images/jucarii_sport.png",
-            "mingi": "./catalog_images/mingi.png",
-            "jucarii-gonflabile": "./catalog_images/jucarii_gonflabile.png",
-            "corturi": "./catalog_images/corturi_copii.png",
-            "masa-scaun": "./catalog_images/masa_scaun.png",
-            "zornaitoare": "./catalog_images/zornaitoare.png",
-            "dentitie": "./catalog_images/dentitie.png",
-            "baie": "./catalog_images/baie.png",
-            "muzicale": "./catalog_images/muzicale_bebelusi.png",
-            "dezvoltare": "./catalog_images/dezvoltare_bebelusi.png",
-            "jocuri-sortare": "./catalog_images/sortare_lemn.png",
-            "jocuri-lemn": "./catalog_images/sortare_lemn.png",
-            "cadite": "./catalog_images/cadite.png",
-            "olite": "./catalog_images/olite.png",
-            "covorase": "./catalog_images/covorase.png",
-            "premergator": "./catalog_images/premergator.png",
-            "electrice": "./catalog_images/masini_motociclete_electrice.png",
-            "biciclete": "./catalog_images/biciclete.png",
-            "triciclete": "./catalog_images/triciclete.png",
-            "trotinete": "./catalog_images/trotinete.png",
-            "tolocare": "./catalog_images/tolocare.png",
-            "tractoare-pedale": "./catalog_images/tractoare_pedale.png",
-            "role": "./catalog_images/role.png",
-            "pennyboard": "./catalog_images/pennyboard.png",
-            "protectie": "./catalog_images/protectie.png"
+            "jucarii-plus": "catalog_images/jucarii_din_plus.png",
+            "arme-accesorii": "catalog_images/arme_si_accesorii.png",
+            "pistoale-bile-gloante-moi": "catalog_images/pistoale_cu_bile.png",
+            "pe-baterii": "catalog_images/pe_baterii_lumini.jpg",
+            "accesorii-arme": "catalog_images/accesorii_arme.jpg",
+            "creativitate": "catalog_images/creativitate.png",
+            "lego": "catalog_images/lego.png",
+            "puzzle": "catalog_images/puzzle.png",
+            "personaje-figurine": "catalog_images/personaje_si_figurine.png",
+            "seturi-eroi": "catalog_images/seturi_eroi.jpg",
+            "roboti": "catalog_images/seturi_eroi_roboti_animale.png",
+            "animale-interactive": "catalog_images/animale_interactive_new.jpg",
+            "seturi-constructie": "catalog_images/seturi_constructie.png",
+            "seturi-miciuti": "catalog_images/seturi_miciuti.jpg",
+            "jucarii-ansamblu": "catalog_images/jucarii_ansamblu_new.jpg",
+            "metal": "catalog_images/metal_set_constructor.png",
+            "trenuri-vehicule": "catalog_images/tractoare_trenuri_motoare.png",
+            "masini-metal": "catalog_images/masini_metal.jpg",
+            "tractorase": "catalog_images/tractorase.jpg",
+            "trenuri": "catalog_images/trenuri_clear.jpg",
+            "moto": "catalog_images/moto_alt.jpg",
+            "masini-plastic": "catalog_images/masini_plastic.jpg",
+            "papusi-case": "catalog_images/papusi_si_case.png",
+            "papusi": "catalog_images/papusi.jpg",
+            "case-papusi": "catalog_images/case_papusi.jpg",
+            "carucioare": "catalog_images/carucioare.jpg",
+            "instrumente": "catalog_images/instrumente_muzicale.png",
+            "telecomanda": "catalog_images/jucarii_telecomanda.png",
+            "animale-rc": "catalog_images/animale_rc.jpg",
+            "autospeciale-rc": "catalog_images/autospeciale_rc.jpg",
+            "elicoptere-rc": "catalog_images/avioane_autospeciale.png",
+            "masini-rc": "catalog_images/jucarii_telecomanda.png",
+            "rol": "catalog_images/bucatarii_jucarii_electrocasnice.png",
+            "set-doctor": "catalog_images/set_doctor.png",
+            "set-curatenie": "catalog_images/set_curatenie.png",
+            "pusculite": "catalog_images/pusculite.png",
+            "bucatarii-alimente": "catalog_images/bucatarii_jucarii_electrocasnice.png",
+            "electrocasnice": "catalog_images/electrocasnice_new.jpg",
+            "creativitate-hobby": "catalog_images/pictura_plastilina_nisip_magic.png",
+            "pictura-numere": "catalog_images/pictura_numere.jpg",
+            "plastilina-nisip": "catalog_images/plastilina_nisip_mix.jpg",
+            "mozaic": "catalog_images/mozaic.jpg",
+            "mozaic-diamante": "catalog_images/mozaic_diamante.jpg",
+            "sezoniere": "catalog_images/bule_sapun_seturi_nisip.png",
+            "bule-sapun": "catalog_images/bule_sapun_seturi_nisip.png",
+            "seturi-nisip": "catalog_images/seturi_nisip.jpg",
+            "piscine-intex": "catalog_images/piscine_intex.png",
+            "cosmetice": "catalog_images/cosmetice_accesorii.png",
+            "casute": "catalog_images/casute.png",
+            "tobogane": "catalog_images/tobogane.png",
+            "trambuline": "catalog_images/trambuline.png",
+            "scranciob": "catalog_images/scranciob.png",
+            "jucarii-sport": "catalog_images/jucarii_sport.png",
+            "mingi": "catalog_images/mingi.png",
+            "jucarii-gonflabile": "catalog_images/jucarii_gonflabile.png",
+            "corturi": "catalog_images/corturi_copii.png",
+            "masa-scaun": "catalog_images/masa_scaun.png",
+            "zornaitoare": "catalog_images/zornaitoare.png",
+            "dentitie": "catalog_images/dentitie.png",
+            "baie": "catalog_images/baie.png",
+            "muzicale": "catalog_images/muzicale_bebelusi.png",
+            "dezvoltare": "catalog_images/dezvoltare_bebelusi.png",
+            "jocuri-sortare": "catalog_images/jucarii_ansamblu_new.jpg",
+            "jocuri-lemn": "catalog_images/seturi_miciuti.jpg",
+            "cadite": "catalog_images/cadite.png",
+            "olite": "catalog_images/olite.png",
+            "covorase": "catalog_images/covorase.png",
+            "premergator": "catalog_images/premergator.png",
+            "electrice": "catalog_images/masini_motociclete_electrice.png",
+            "biciclete": "catalog_images/biciclete.png",
+            "triciclete": "catalog_images/triciclete_fix.png",
+            "trotinete": "catalog_images/trotinete.png",
+            "tolocare": "catalog_images/tolocare.png",
+            "tractoare-pedale": "catalog_images/tractoare_pedale.png",
+            "role": "catalog_images/role_fix.png",
+            "pennyboard": "catalog_images/pennyboard.png",
+            "protectie": "catalog_images/protectie.png"
         };
 
         function getSemanticIconCode(item, scope = "subcategory") {
@@ -3245,6 +3676,31 @@ const ruProductMap = {
             if (localImage) return localImage;
             const code = iconCodeBySubcategoryId[item?.id] || getSemanticIconCode(item, "subcategory");
             return getOpenMojiUrl(code);
+        }
+
+        function getSubcategoryImageAltPath(src) {
+            const normalized = normalizeCatalogAssetPath(src);
+            if (!normalized) return "";
+            if (/^(https?:)?\/\//i.test(normalized) || normalized.startsWith("data:") || normalized.startsWith("blob:")) return "";
+            if (normalized.startsWith("catalog_images/")) return `/${normalized}`;
+            if (normalized.startsWith("jucarii_md_export_full/")) return `/${normalized}`;
+            return "";
+        }
+
+        function getSubcategoryImageAltPath2(src) {
+            const normalized = normalizeCatalogAssetPath(src);
+            if (!normalized) return "";
+            if (/^(https?:)?\/\//i.test(normalized) || normalized.startsWith("data:") || normalized.startsWith("blob:")) return "";
+            if (normalized.startsWith("catalog_images/")) return `jucarii_md_export_full/${normalized}`;
+            return "";
+        }
+
+        function getSubcategoryImageAltPath3(src) {
+            const normalized = normalizeCatalogAssetPath(src);
+            if (!normalized) return "";
+            if (/^(https?:)?\/\//i.test(normalized) || normalized.startsWith("data:") || normalized.startsWith("blob:")) return "";
+            if (normalized.startsWith("catalog_images/")) return `/jucarii_md_export_full/${normalized}`;
+            return "";
         }
 
         function getPopularCategoryImageUrl(item) {
@@ -3516,41 +3972,34 @@ const ruProductMap = {
             setAuthMessage("");
         }
 
-        function resetRecaptcha() {
-            if (recaptchaVerifier) {
-                try { recaptchaVerifier.clear(); } catch {}
-                recaptchaVerifier = null;
-            }
-            const container = document.getElementById("recaptcha-container");
-            if (container) container.innerHTML = "";
-        }
-
-        function getRecaptchaVerifier() {
-            if (!recaptchaVerifier) {
-                recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
-                    size: "invisible"
-                });
-            }
-            return recaptchaVerifier;
-        }
-
         async function hydrateAccount(user) {
             accountHydrating = true;
             const guestCart = sanitizeCart(loadJson(GUEST_CART_KEY, []));
             const guestWishlist = sanitizeWishlist(loadJson(GUEST_WISHLIST_KEY, []));
-            accountProfile = {
-                ...(accountProfile || {}),
-                fullName: user.displayName || accountProfile?.fullName || "",
-                email: user.email || accountProfile?.email || "",
-                phone: user.phoneNumber || accountProfile?.phone || "",
-                city: accountProfile?.city || "Chisinau",
-                phoneVerified: Boolean(user.phoneNumber || accountProfile?.phoneVerified)
-            };
 
             try {
                 const ref = getUserRef(user);
-                const snap = await getDoc(ref);
-                const remote = snap.exists() ? snap.data() : {};
+                let snap = null;
+                let usingCache = false;
+
+                try {
+                    snap = await getDoc(ref);
+                } catch (readError) {
+                    const code = String(readError?.code || "");
+                    const message = String(readError?.message || "").toLowerCase();
+                    const offlineError = code.includes("unavailable") || message.includes("offline");
+                    if (!offlineError) throw readError;
+
+                    usingCache = true;
+                    try {
+                        snap = await getDocFromCache(ref);
+                    } catch {
+                        snap = null;
+                    }
+                    showToast("Firestore este temporar offline. Folosim date locale.", "warning");
+                }
+
+                const remote = snap?.exists?.() ? snap.data() : {};
                 const remoteProfile = remote.profile || {};
 
                 accountProfile = {
@@ -3566,19 +4015,20 @@ const ruProductMap = {
                 wishlist = sanitizeWishlist([...(remote.wishlist || []), ...guestWishlist]);
                 purchasedProducts = sanitizePurchasedProducts(remote.purchasedProducts || []);
 
-                await setDoc(ref, {
-                    profile: accountProfile,
-                    cart,
-                    wishlist,
-                    purchasedProducts,
-                    email: user.email || "",
-                    phoneNumber: user.phoneNumber || accountProfile.phone || "",
-                    updatedAt: serverTimestamp(),
-                    lastLoginAt: serverTimestamp(),
-                    createdAt: remote.createdAt || serverTimestamp()
-                }, { merge: true });
-
-                clearGuestState();
+                if (!usingCache) {
+                    await setDoc(ref, {
+                        profile: accountProfile,
+                        cart,
+                        wishlist,
+                        purchasedProducts,
+                        email: user.email || "",
+                        phoneNumber: user.phoneNumber || accountProfile.phone || "",
+                        updatedAt: serverTimestamp(),
+                        lastLoginAt: serverTimestamp(),
+                        createdAt: remote.createdAt || serverTimestamp()
+                    }, { merge: true });
+                    clearGuestState();
+                }
             } catch (error) {
                 console.error("Eroare la încărcarea contului:", error);
                 showToast("Nu am putut încărca datele contului din Firestore.", "danger");
@@ -3612,8 +4062,8 @@ const ruProductMap = {
                 if (text) text.textContent = "Contul meu";
                 accountButtons.forEach((accountBtn) => {
                     accountBtn.href = "#";
-                    accountBtn.setAttribute("data-bs-toggle", "modal");
-                    accountBtn.setAttribute("data-bs-target", "#authModal");
+                    accountBtn.removeAttribute("data-bs-toggle");
+                    accountBtn.removeAttribute("data-bs-target");
                 });
             }
         }
@@ -3691,11 +4141,12 @@ const ruProductMap = {
             const oldPriceHtml = product.oldPrice ? `<span class="text-muted text-decoration-line-through ms-2">${money(product.oldPrice)}</span>` : "";
             const wishClass = isInWishlist(product.id) ? "fas" : "far";
             const newBadge = showNewBadge && product.isNew ? `<span class="badge-new">Nou</span>` : "";
+            const imageData = getImageFallbackData(product.img);
             return `
                 <div class="col">
                     <article class="product-card" onclick="window.location.hash='product/${product.id}'">
                         ${newBadge}
-                        <img src="${escapeHtml(product.img)}" class="card-img-top" alt="${escapeHtml(product.name)}" loading="lazy">
+                        <img src="${escapeHtml(imageData.primary)}" data-alt-src="${escapeHtml(imageData.alt1)}" data-alt-src2="${escapeHtml(imageData.alt2)}" data-alt-src3="${escapeHtml(imageData.alt3)}" class="card-img-top" alt="${escapeHtml(product.name)}" loading="lazy" onerror="if(!this.dataset.alt1 && this.dataset.altSrc){this.dataset.alt1='1';this.src=this.dataset.altSrc;return;} if(!this.dataset.alt2 && this.dataset.altSrc2){this.dataset.alt2='1';this.src=this.dataset.altSrc2;return;} if(!this.dataset.alt3 && this.dataset.altSrc3){this.dataset.alt3='1';this.src=this.dataset.altSrc3;return;} this.onerror=null;">
                         <div class="card-body d-flex flex-column p-3">
                             <h6 class="card-title fw-bold">${escapeHtml(product.name)}</h6>
                             <div class="mt-auto">
@@ -3771,7 +4222,7 @@ const ruProductMap = {
                         <h4 class="mb-0 fw-bold">Ofertele noastre</h4>
                         <a href="#promo" class="btn btn-outline-primary-custom btn-sm rounded-pill">Reduceri</a>
                     </div>
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                    <div class="row row-cols-2 row-cols-md-2 row-cols-xl-3 g-3 g-md-4">
                         ${window.allProducts.filter((product) => product.oldPrice).map((product) => productCard(product)).join("")}
                     </div>
                 </div>
@@ -3874,53 +4325,179 @@ const ruProductMap = {
             let filtered = [...window.allProducts];
             const queryText = String(filterTerm || "").trim();
             if (queryText) {
-                filtered = filtered.filter((product) => matchesFilterSource(product, queryText));
+                const shopRule = getShopFilterRule(queryText);
+                filtered = filtered.filter((product) => {
+                    if (!matchesFilterSourceStrict(product, queryText)) return false;
+                    if (shopRule && !matchesStructuredFilterRule(product, shopRule)) return false;
+                    return true;
+                });
             }
             return filtered;
         }
 
-        function renderShop(filterTerm = "") {
-            const brandOptions = Array.from(new Set(window.allProducts.map((product) => product.brand))).sort();
-            const filtered = getFilteredProducts(filterTerm);
+        function getUniqueSortedValues(items, field) {
+            const values = new Set();
+            (Array.isArray(items) ? items : []).forEach((item) => {
+                const value = decodeMojibakeText(item?.[field] || "").trim();
+                if (value) values.add(value);
+            });
+            return Array.from(values).sort((a, b) => a.localeCompare(b, "ro"));
+        }
+
+        function resolveBrandForShopFilter(brandValue) {
+            const decodedBrand = decodeMojibakeText(String(brandValue || "")).trim();
+            if (!decodedBrand) return "";
+            const target = normalize(decodedBrand);
+            const availableBrands = getUniqueSortedValues(window.allProducts, "brand");
+            return availableBrands.find((brand) => normalize(brand) === target) || decodedBrand;
+        }
+
+        function applyShopStateFilters(products) {
+            const selectedCategory = normalize(shopState.category);
+            const selectedSubcategory = normalize(shopState.subcategory);
+            return (Array.isArray(products) ? products : []).filter((product) => {
+                if (selectedCategory && normalize(product?.category) !== selectedCategory) return false;
+                if (selectedSubcategory && normalize(product?.subcategory) !== selectedSubcategory) return false;
+                if (shopState.brand && decodeMojibakeText(product?.brand || "") !== shopState.brand) return false;
+                if (shopState.age && decodeMojibakeText(product?.age || "") !== shopState.age) return false;
+                return true;
+            });
+        }
+
+        function renderShop(filterTerm = shopState.filterTerm) {
+            const nextFilterTerm = String(filterTerm ?? "").trim();
+            if (nextFilterTerm !== shopState.filterTerm) {
+                shopState.filterTerm = nextFilterTerm;
+                shopState.currentPage = 1;
+            }
+
+            const searched = getFilteredProducts(shopState.filterTerm);
+            const categoryOptions = getUniqueSortedValues(searched, "category");
+            const scopedForSubcategory = shopState.category
+                ? searched.filter((product) => normalize(product?.category) === normalize(shopState.category))
+                : searched;
+            const subcategoryOptions = getUniqueSortedValues(scopedForSubcategory, "subcategory");
+            const brandOptions = getUniqueSortedValues(scopedForSubcategory, "brand");
+            const ageOptions = getUniqueSortedValues(scopedForSubcategory, "age");
+
+            let filtered = applyShopStateFilters(searched);
+
+            if (shopState.sortBy === "priceAsc") filtered.sort((a, b) => (Number(a.price) || 0) - (Number(b.price) || 0));
+            if (shopState.sortBy === "priceDesc") filtered.sort((a, b) => (Number(b.price) || 0) - (Number(a.price) || 0));
+            if (shopState.sortBy === "nameAsc") filtered.sort((a, b) => String(a.name || "").localeCompare(String(b.name || ""), "ro"));
+
+            const totalItems = filtered.length;
+            const totalPages = Math.max(1, Math.ceil(totalItems / shopState.itemsPerPage));
+            shopState.currentPage = Math.min(shopState.currentPage, totalPages);
+            const startIdx = (shopState.currentPage - 1) * shopState.itemsPerPage;
+            const paginated = filtered.slice(startIdx, startIdx + shopState.itemsPerPage);
+            const startResult = totalItems ? startIdx + 1 : 0;
+            const endResult = Math.min(startIdx + shopState.itemsPerPage, totalItems);
+
             appEl.innerHTML = `
-                ${breadcrumb(filterTerm ? `Rezultate pentru ${filterTerm}` : "Magazin")}
+                ${breadcrumb(shopState.filterTerm ? `Rezultate pentru ${shopState.filterTerm}` : "Magazin")}
                 <div class="surface p-3 p-md-4">
                     <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap mb-3">
                         <div>
                             <h2 class="fw-bold mb-1">Magazin de jucării</h2>
-                            <div class="small-muted">${filtered.length} produse găsite</div>
+                            <div class="small-muted">Afișez ${startResult}-${endResult} din ${totalItems} produse</div>
                         </div>
-                        <div class="d-flex gap-2 flex-wrap">
-                            <select id="brandFilter" class="form-select rounded-pill">
-                                <option value="">Orice brand</option>
-                                ${brandOptions.map((brand) => `<option value="${escapeHtml(brand)}">${escapeHtml(brand)}</option>`).join("")}
+                        <div class="d-flex gap-2 flex-wrap align-items-center">
+                            <select id="shopPerPageSelect" class="form-select rounded-pill">
+                                ${[12, 24, 36, 48].map((count) => `<option value="${count}" ${shopState.itemsPerPage === count ? "selected" : ""}>${count} / pagină</option>`).join("")}
                             </select>
-                            <select id="ageFilter" class="form-select rounded-pill">
-                                <option value="">Orice vârstă</option>
-                                ${Array.from(new Set(window.allProducts.map((product) => product.age))).map((age) => `<option value="${escapeHtml(age)}">${escapeHtml(age)}</option>`).join("")}
+                            <select id="shopSortSelect" class="form-select rounded-pill">
+                                <option value="default" ${shopState.sortBy === "default" ? "selected" : ""}>Sortare implicită</option>
+                                <option value="priceAsc" ${shopState.sortBy === "priceAsc" ? "selected" : ""}>Preț crescător</option>
+                                <option value="priceDesc" ${shopState.sortBy === "priceDesc" ? "selected" : ""}>Preț descrescător</option>
+                                <option value="nameAsc" ${shopState.sortBy === "nameAsc" ? "selected" : ""}>Nume A-Z</option>
                             </select>
-                            <button class="btn btn-primary-custom rounded-pill" onclick="window.applyFilters()">Aplică</button>
                         </div>
                     </div>
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4" id="productGrid">
-                        ${filtered.length ? filtered.map((product) => productCard(product)).join("") : `<div class="col-12"><div class="alert alert-info mb-0">Nu există produse care să corespundă.</div></div>`}
+
+                    <div class="d-flex gap-2 flex-wrap mb-3">
+                        <select id="shopCategoryFilter" class="form-select rounded-pill">
+                            <option value="">Toate categoriile</option>
+                            ${categoryOptions.map((category) => `<option value="${escapeHtml(category)}" ${shopState.category === category ? "selected" : ""}>${escapeHtml(category)}</option>`).join("")}
+                        </select>
+                        <select id="shopSubcategoryFilter" class="form-select rounded-pill">
+                            <option value="">Toate subcategoriile</option>
+                            ${subcategoryOptions.map((subcategory) => `<option value="${escapeHtml(subcategory)}" ${shopState.subcategory === subcategory ? "selected" : ""}>${escapeHtml(subcategory)}</option>`).join("")}
+                        </select>
+                        <select id="shopBrandFilter" class="form-select rounded-pill">
+                            <option value="">Orice brand</option>
+                            ${brandOptions.map((brand) => `<option value="${escapeHtml(brand)}" ${shopState.brand === brand ? "selected" : ""}>${escapeHtml(brand)}</option>`).join("")}
+                        </select>
+                        <select id="shopAgeFilter" class="form-select rounded-pill">
+                            <option value="">Orice vârstă</option>
+                            ${ageOptions.map((age) => `<option value="${escapeHtml(age)}" ${shopState.age === age ? "selected" : ""}>${escapeHtml(age)}</option>`).join("")}
+                        </select>
+                        <button class="btn btn-primary-custom rounded-pill" id="shopApplyFiltersBtn">Aplică</button>
+                        <button class="btn btn-outline-primary-custom rounded-pill" id="shopResetFiltersBtn">Resetează</button>
                     </div>
+
+                    <div class="row row-cols-2 row-cols-md-2 row-cols-xl-3 g-3 g-md-4" id="productGrid">
+                        ${paginated.length ? paginated.map((product) => productCard(product)).join("") : `<div class="col-12"><div class="alert alert-info mb-0">Nu există produse care să corespundă filtrării.</div></div>`}
+                    </div>
+
+                    ${totalPages > 1 ? `
+                        <div class="d-flex justify-content-center flex-wrap gap-2 mt-4">
+                            ${Array.from({ length: totalPages }, (_, index) => `<button class="page-link-custom ${shopState.currentPage === index + 1 ? "active" : ""}" data-shop-page="${index + 1}">${index + 1}</button>`).join("")}
+                        </div>
+                    ` : ""}
                 </div>
             `;
+
+            document.getElementById("shopPerPageSelect")?.addEventListener("change", (event) => {
+                shopState.itemsPerPage = Number.parseInt(event.target.value, 10) || 24;
+                shopState.currentPage = 1;
+                renderShop();
+            });
+
+            document.getElementById("shopSortSelect")?.addEventListener("change", (event) => {
+                shopState.sortBy = event.target.value || "default";
+                renderShop();
+            });
+
+            window.applyFilters = function() {
+                shopState.category = document.getElementById("shopCategoryFilter")?.value || "";
+                shopState.subcategory = document.getElementById("shopSubcategoryFilter")?.value || "";
+                shopState.brand = document.getElementById("shopBrandFilter")?.value || "";
+                shopState.age = document.getElementById("shopAgeFilter")?.value || "";
+                shopState.currentPage = 1;
+                renderShop();
+            };
+
+            window.resetShopFilters = function() {
+                shopState.category = "";
+                shopState.subcategory = "";
+                shopState.brand = "";
+                shopState.age = "";
+                shopState.currentPage = 1;
+                renderShop();
+            };
+
+            document.getElementById("shopApplyFiltersBtn")?.addEventListener("click", () => window.applyFilters());
+            document.getElementById("shopResetFiltersBtn")?.addEventListener("click", () => window.resetShopFilters());
+
+            document.querySelectorAll("[data-shop-page]").forEach((link) => {
+                link.addEventListener("click", () => {
+                    shopState.currentPage = Number.parseInt(link.getAttribute("data-shop-page"), 10) || 1;
+                    renderShop();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                });
+            });
         }
 
-        window.applyFilters = function() {
-            const brand = document.getElementById("brandFilter")?.value || "";
-            const age = document.getElementById("ageFilter")?.value || "";
-            let filtered = [...window.allProducts];
-            if (brand) filtered = filtered.filter((product) => product.brand === brand);
-            if (age) filtered = filtered.filter((product) => product.age === age);
-            const grid = document.getElementById("productGrid");
-            if (grid) {
-                grid.innerHTML = filtered.length
-                    ? filtered.map((product) => productCard(product)).join("")
-                    : `<div class="col-12"><div class="alert alert-info mb-0">Nu există produse cu aceste filtre.</div></div>`;
-            }
+        const shopState = {
+            filterTerm: "",
+            category: "",
+            subcategory: "",
+            brand: "",
+            age: "",
+            currentPage: 1,
+            itemsPerPage: 24,
+            sortBy: "default"
         };
 
         const toysState = {
@@ -3952,6 +4529,12 @@ const ruProductMap = {
             currentNestedSubcategory: "",
             currentPage: 1,
             itemsPerPage: 12,
+            sortBy: "default"
+        };
+
+        const booksState = {
+            currentPage: 1,
+            itemsPerPage: 18,
             sortBy: "default"
         };
 
@@ -4145,19 +4728,26 @@ const ruProductMap = {
 
         function renderHubCards(items, attrName, activeId) {
             const isTransportHub = String(attrName || "").includes("transport");
+            const isExteriorHub = String(attrName || "").includes("exterior");
             return `
                 <div class="subcategory-hub">
                     <div class="subcategory-grid">
-                        ${items.map((item) => `
-                            <button type="button" class="subcategory-card ${activeId === item.id ? "active" : ""}" ${attrName}="${item.id}">
-                                <span class="subcategory-orb ${item.tone} has-photo ${isTransportHub ? "transport-visual" : ""}">
-                                    <img class="subcategory-orb-image" src="${escapeHtml(getSubcategoryImageUrl(item))}" data-fallback="${escapeHtml(createAbstractFallbackUrl(item, "subcategory"))}" alt="${escapeHtml(item.label)}" loading="lazy" decoding="async" onerror="if(!this.dataset.fallbackApplied){this.dataset.fallbackApplied='1';this.src=this.dataset.fallback;}">
-                                    <span class="orb-ring"></span>
-                                    <span class="orb-core"></span>
-                                </span>
-                                <span>${escapeHtml(item.label)}</span>
-                            </button>
-                        `).join("")}
+                        ${items.map((item) => {
+                            const imgSrc = getSubcategoryImageUrl(item);
+                            const altSrc = getSubcategoryImageAltPath(imgSrc);
+                            const altSrc2 = getSubcategoryImageAltPath2(imgSrc);
+                            const altSrc3 = getSubcategoryImageAltPath3(imgSrc);
+                            return `
+                                <button type="button" class="subcategory-card ${activeId === item.id ? "active" : ""}" ${attrName}="${item.id}">
+                                    <span class="subcategory-orb ${item.tone} has-photo ${isTransportHub ? "transport-visual" : ""} ${isExteriorHub ? "exterior-visual" : ""}">
+                                        <img class="subcategory-orb-image" src="${escapeHtml(imgSrc)}" data-alt-src="${escapeHtml(altSrc)}" data-alt-src2="${escapeHtml(altSrc2)}" data-alt-src3="${escapeHtml(altSrc3)}" data-fallback="${escapeHtml(createAbstractFallbackUrl(item, "subcategory"))}" alt="${escapeHtml(item.label)}" loading="lazy" decoding="async" onerror="if(!this.dataset.alt1 && this.dataset.altSrc){this.dataset.alt1='1';this.src=this.dataset.altSrc;return;} if(!this.dataset.alt2 && this.dataset.altSrc2){this.dataset.alt2='1';this.src=this.dataset.altSrc2;return;} if(!this.dataset.alt3 && this.dataset.altSrc3){this.dataset.alt3='1';this.src=this.dataset.altSrc3;return;} if(!this.dataset.fallbackApplied){this.dataset.fallbackApplied='1';this.src=this.dataset.fallback;}">
+                                        <span class="orb-ring"></span>
+                                        <span class="orb-core"></span>
+                                    </span>
+                                    <span>${escapeHtml(item.label)}</span>
+                                </button>
+                            `;
+                        }).join("")}
                     </div>
                 </div>
             `;
@@ -4204,10 +4794,7 @@ const ruProductMap = {
                 toysState.currentSubcategory = selectedParent.id;
                 toysState.currentNestedSubcategory = "";
             }
-            let filtered = [...window.allProducts];
-            if (selectedFilter) {
-                filtered = filtered.filter((product) => matchesFilterSource(product, selectedFilter));
-            }
+            let filtered = filterProductsForHubPage(window.allProducts, "jucarii", selectedFilter);
 
             if (toysState.sortBy === "priceAsc") filtered.sort((a, b) => a.price - b.price);
             if (toysState.sortBy === "priceDesc") filtered.sort((a, b) => b.price - a.price);
@@ -4245,7 +4832,7 @@ const ruProductMap = {
                     ${renderHubCards(toysHubItems, "data-toys-hub", toysState.currentSubcategory)}
                     ${renderHubNestedFilters(selectedParent, "data-toys-hub-nested", toysState.currentNestedSubcategory)}
 
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                    <div class="row row-cols-2 row-cols-md-2 row-cols-xl-3 g-3 g-md-4">
                         ${paginated.length ? paginated.map((product) => productCard(product, true)).join("") : `<div class="col-12"><div class="alert alert-info mb-0">Nu există produse care să corespundă selecției.</div></div>`}
                     </div>
 
@@ -4304,11 +4891,7 @@ const ruProductMap = {
                 transportState.currentSubcategory = selectedParent.id;
                 transportState.currentNestedSubcategory = "";
             }
-            let filtered = [...window.allProducts];
-
-            if (selectedFilter) {
-                filtered = filtered.filter((product) => matchesFilterSource(product, selectedFilter));
-            }
+            let filtered = filterProductsForHubPage(window.allProducts, "transport", selectedFilter);
 
             if (transportState.sortBy === "priceAsc") filtered.sort((a, b) => a.price - b.price);
             if (transportState.sortBy === "priceDesc") filtered.sort((a, b) => b.price - a.price);
@@ -4346,7 +4929,7 @@ const ruProductMap = {
                     ${renderHubCards(transportHubItems, "data-transport-hub", transportState.currentSubcategory)}
                     ${renderHubNestedFilters(selectedParent, "data-transport-hub-nested", transportState.currentNestedSubcategory)}
 
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                    <div class="row row-cols-2 row-cols-md-2 row-cols-xl-3 g-3 g-md-4">
                         ${paginated.length ? paginated.map((product) => productCard(product, true)).join("") : `<div class="col-12"><div class="alert alert-info mb-0">Nu există produse care să corespundă selecției.</div></div>`}
                     </div>
 
@@ -4405,11 +4988,7 @@ const ruProductMap = {
                 exteriorState.currentSubcategory = selectedParent.id;
                 exteriorState.currentNestedSubcategory = "";
             }
-            let filtered = [...window.allProducts];
-
-            if (selectedFilter) {
-                filtered = filtered.filter((product) => matchesFilterSource(product, selectedFilter));
-            }
+            let filtered = filterProductsForHubPage(window.allProducts, "exterior", selectedFilter);
 
             if (exteriorState.sortBy === "priceAsc") filtered.sort((a, b) => a.price - b.price);
             if (exteriorState.sortBy === "priceDesc") filtered.sort((a, b) => b.price - a.price);
@@ -4447,7 +5026,7 @@ const ruProductMap = {
                     ${renderHubCards(exteriorHubItems, "data-exterior-hub", exteriorState.currentSubcategory)}
                     ${renderHubNestedFilters(selectedParent, "data-exterior-hub-nested", exteriorState.currentNestedSubcategory)}
 
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                    <div class="row row-cols-2 row-cols-md-2 row-cols-xl-3 g-3 g-md-4">
                         ${paginated.length ? paginated.map((product) => productCard(product, true)).join("") : `<div class="col-12"><div class="alert alert-info mb-0">Nu există produse care să corespundă selecției.</div></div>`}
                     </div>
 
@@ -4506,11 +5085,7 @@ const ruProductMap = {
                 bebelusiState.currentSubcategory = selectedParent.id;
                 bebelusiState.currentNestedSubcategory = "";
             }
-            let filtered = [...window.allProducts];
-
-            if (selectedFilter) {
-                filtered = filtered.filter((product) => matchesFilterSource(product, selectedFilter));
-            }
+            let filtered = filterProductsForHubPage(window.allProducts, "bebelusi", selectedFilter);
 
             if (bebelusiState.sortBy === "priceAsc") filtered.sort((a, b) => a.price - b.price);
             if (bebelusiState.sortBy === "priceDesc") filtered.sort((a, b) => b.price - a.price);
@@ -4548,7 +5123,7 @@ const ruProductMap = {
                     ${renderHubCards(bebelusiHubItems, "data-bebelusi-hub", bebelusiState.currentSubcategory)}
                     ${renderHubNestedFilters(selectedParent, "data-bebelusi-hub-nested", bebelusiState.currentNestedSubcategory)}
 
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                    <div class="row row-cols-2 row-cols-md-2 row-cols-xl-3 g-3 g-md-4">
                         ${paginated.length ? paginated.map((product) => productCard(product, true)).join("") : `<div class="col-12"><div class="alert alert-info mb-0">Nu există produse care să corespundă selecției.</div></div>`}
                     </div>
 
@@ -4592,6 +5167,77 @@ const ruProductMap = {
                 link.addEventListener("click", () => {
                     bebelusiState.currentPage = Number.parseInt(link.getAttribute("data-bebelusi-page"), 10);
                     renderBebelusiPage();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                });
+            });
+
+            applyLanguage();
+        }
+
+        function renderBooksPage() {
+            const booksFilter = { query: "carti carte book poveste povesti enciclopedie atlas abecedar lectura literatura", label: "Carti" };
+            let filtered = filterProductsForHubPage(window.allProducts, "carti", booksFilter);
+
+            if (booksState.sortBy === "priceAsc") filtered.sort((a, b) => a.price - b.price);
+            if (booksState.sortBy === "priceDesc") filtered.sort((a, b) => b.price - a.price);
+            if (booksState.sortBy === "nameAsc") filtered.sort((a, b) => a.name.localeCompare(b.name, "ro"));
+
+            const totalItems = filtered.length;
+            const totalPages = Math.max(1, Math.ceil(totalItems / booksState.itemsPerPage));
+            booksState.currentPage = Math.min(booksState.currentPage, totalPages);
+            const startIdx = (booksState.currentPage - 1) * booksState.itemsPerPage;
+            const paginated = filtered.slice(startIdx, startIdx + booksState.itemsPerPage);
+            const startResult = totalItems ? startIdx + 1 : 0;
+            const endResult = Math.min(startIdx + booksState.itemsPerPage, totalItems);
+
+            appEl.innerHTML = `
+                ${breadcrumb("Carti pentru copii")}
+                <div class="surface p-3 p-md-4">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+                        <div>
+                            <h2 class="fw-bold mb-1">Cărți pentru copii</h2>
+                            <div class="small-muted">Afișez ${startResult}-${endResult} din ${totalItems} rezultate</div>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <select id="booksPerPageSelect" class="form-select rounded-pill">
+                                ${[12, 18, 24, 36].map((count) => `<option value="${count}" ${booksState.itemsPerPage === count ? "selected" : ""}>${count} / pagină</option>`).join("")}
+                            </select>
+                            <select id="booksSortSelect" class="form-select rounded-pill">
+                                <option value="default" ${booksState.sortBy === "default" ? "selected" : ""}>Sortare implicită</option>
+                                <option value="priceAsc" ${booksState.sortBy === "priceAsc" ? "selected" : ""}>Preț crescător</option>
+                                <option value="priceDesc" ${booksState.sortBy === "priceDesc" ? "selected" : ""}>Preț descrescător</option>
+                                <option value="nameAsc" ${booksState.sortBy === "nameAsc" ? "selected" : ""}>Nume A-Z</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row row-cols-2 row-cols-md-2 row-cols-xl-3 g-3 g-md-4">
+                        ${paginated.length ? paginated.map((product) => productCard(product, true)).join("") : `<div class="col-12"><div class="alert alert-info mb-0">Nu există produse în categoria cărți.</div></div>`}
+                    </div>
+
+                    ${totalPages > 1 ? `
+                        <div class="d-flex justify-content-center flex-wrap gap-2 mt-4">
+                            ${Array.from({ length: totalPages }, (_, index) => `<button class="page-link-custom ${booksState.currentPage === index + 1 ? "active" : ""}" data-books-page="${index + 1}">${index + 1}</button>`).join("")}
+                        </div>
+                    ` : ""}
+                </div>
+            `;
+
+            document.getElementById("booksPerPageSelect")?.addEventListener("change", (event) => {
+                booksState.itemsPerPage = Number.parseInt(event.target.value, 10) || 18;
+                booksState.currentPage = 1;
+                renderBooksPage();
+            });
+
+            document.getElementById("booksSortSelect")?.addEventListener("change", (event) => {
+                booksState.sortBy = event.target.value || "default";
+                renderBooksPage();
+            });
+
+            document.querySelectorAll("[data-books-page]").forEach((link) => {
+                link.addEventListener("click", () => {
+                    booksState.currentPage = Number.parseInt(link.getAttribute("data-books-page"), 10) || 1;
+                    renderBooksPage();
                     window.scrollTo({ top: 0, behavior: "smooth" });
                 });
             });
@@ -4819,7 +5465,7 @@ const ruProductMap = {
                                     <option value="nova">Curier Nova Poshta Moldova</option>
                                     <option value="dpd">Curier DPD Moldova</option>
                                     <option value="post">Poșta Moldovei</option>
-                                    <option value="pickup">Ridicare personală - Stăuceni, str. Constructorilor 5</option>
+                                    <option value="pickup">${STORE_PICKUP_LABEL}</option>
                                 </select>
                                 <h5 class="fw-bold">Metodă plată</h5>
                                 <label class="form-check">
@@ -4976,7 +5622,7 @@ const ruProductMap = {
                         <h2 class="fw-bold mb-0">Produse favorite</h2>
                         ${currentUser ? `<span class="badge text-bg-success rounded-pill">Se salvează pe cont</span>` : `<span class="badge text-bg-warning rounded-pill">Se salvează local până te autentifici</span>`}
                     </div>
-                    ${items.length ? `<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">${items.map((product) => productCard(product)).join("")}</div>` : `<p class="mb-0">Nu ai produse favorite. <a href="#shop" class="fw-bold">Descoperă produse</a></p>`}
+                    ${items.length ? `<div class="row row-cols-2 row-cols-md-2 row-cols-xl-3 g-3 g-md-4">${items.map((product) => productCard(product)).join("")}</div>` : `<p class="mb-0">Nu ai produse favorite. <a href="#shop" class="fw-bold">Descoperă produse</a></p>`}
                 </div>
             `;
         }
@@ -5150,16 +5796,6 @@ const ruProductMap = {
                                     <button class="btn btn-primary-custom rounded-pill px-4" type="submit">Salvează profilul</button>
                                 </div>
                             </form>
-
-                            <div class="app-card p-3 mt-4">
-                                <h5 class="fw-bold">Verificare telefon</h5>
-                                <p class="small-muted">Leagă numărul de cont pentru autentificare prin telefon și schimbare parolă cu confirmare SMS.</p>
-                                <button class="btn btn-outline-primary-custom rounded-pill" id="sendLinkPhoneBtn">Trimite cod pentru telefon</button>
-                                <div id="linkPhoneBlock" class="d-none mt-3">
-                                    <input class="form-control rounded-pill mb-2" id="linkPhoneCode" placeholder="Cod SMS" inputmode="numeric" autocomplete="one-time-code">
-                                    <button class="btn btn-primary-custom rounded-pill" id="confirmLinkPhoneBtn">Confirmă telefonul</button>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="tab-pane fade" id="ordersPane">
@@ -5178,17 +5814,6 @@ const ruProductMap = {
                                         <button class="btn btn-outline-primary-custom rounded-pill" id="accountResetEmailBtn" ${currentUser.email ? "" : "disabled"}>Trimite email de resetare</button>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="app-card p-3 h-100">
-                                        <h5 class="fw-bold">Schimbare cu SMS</h5>
-                                        <p class="small-muted">Disponibilă când telefonul este verificat și contul are parolă email.</p>
-                                        <input type="password" class="form-control rounded-pill mb-2" id="smsNewPassword" placeholder="Parolă nouă" minlength="6">
-                                        <button class="btn btn-outline-primary-custom rounded-pill" id="sendPasswordSmsBtn" ${currentUser.phoneNumber && hasProvider(currentUser, "password") ? "" : "disabled"}>Trimite cod SMS</button>
-                                        <div id="passwordSmsBlock" class="d-none mt-3">
-                                            <input class="form-control rounded-pill mb-2" id="passwordSmsCode" placeholder="Cod SMS" inputmode="numeric" autocomplete="one-time-code">
-                                            <button class="btn btn-primary-custom rounded-pill" id="confirmPasswordSmsBtn">Schimbă parola</button>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -5225,9 +5850,6 @@ const ruProductMap = {
                 updateAccountHeader();
                 showToast("Profil salvat.", "success");
             });
-
-            document.getElementById("sendLinkPhoneBtn")?.addEventListener("click", sendLinkPhoneCode);
-            document.getElementById("confirmLinkPhoneBtn")?.addEventListener("click", confirmLinkPhoneCode);
             document.getElementById("accountResetEmailBtn")?.addEventListener("click", async () => {
                 if (!currentUser.email) return;
                 try {
@@ -5237,102 +5859,9 @@ const ruProductMap = {
                     showToast(getFirebaseErrorMessage(error), "danger");
                 }
             });
-            document.getElementById("sendPasswordSmsBtn")?.addEventListener("click", sendPasswordChangeSms);
-            document.getElementById("confirmPasswordSmsBtn")?.addEventListener("click", confirmPasswordChangeSms);
 
             renderOrdersSkeleton();
             renderOrdersList();
-        }
-
-        async function sendLinkPhoneCode() {
-            if (!currentUser) return;
-            const phoneInput = document.getElementById("profilePhone");
-            const sendBtn = document.getElementById("sendLinkPhoneBtn");
-            const phone = normalizeMdPhone(phoneInput?.value || accountProfile?.phone || "");
-            if (!isValidMdPhone(phone)) {
-                showToast("Introdu un număr Moldova valid: +373xxxxxxxx.", "warning");
-                return;
-            }
-            try {
-                if (phoneInput) phoneInput.value = phone;
-                linkPhoneVerificationId = null;
-                setButtonBusy(sendBtn, true, "Se trimite...");
-                const provider = new PhoneAuthProvider(auth);
-                linkPhoneVerificationId = await provider.verifyPhoneNumber(phone, getRecaptchaVerifier());
-                document.getElementById("linkPhoneBlock")?.classList.remove("d-none");
-                showToast("Codul SMS a fost trimis.", "success");
-            } catch (error) {
-                resetRecaptcha();
-                showToast(getFirebaseErrorMessage(error), "danger");
-            } finally {
-                setButtonBusy(sendBtn, false);
-            }
-        }
-
-        async function confirmLinkPhoneCode() {
-            if (!currentUser || !linkPhoneVerificationId) return;
-            const code = document.getElementById("linkPhoneCode")?.value.trim();
-            const phone = normalizeMdPhone(document.getElementById("profilePhone")?.value || "");
-            if (!code) {
-                showToast("Introdu codul primit prin SMS.", "warning");
-                return;
-            }
-            try {
-                const credential = PhoneAuthProvider.credential(linkPhoneVerificationId, code);
-                await linkWithCredential(currentUser, credential);
-                accountProfile = {
-                    ...(accountProfile || {}),
-                    phone,
-                    phoneVerified: true
-                };
-                await persistAccountState({ profile: accountProfile, phoneNumber: phone });
-                showToast("Telefon verificat și legat de cont.", "success");
-                renderAccount();
-            } catch (error) {
-                showToast(getFirebaseErrorMessage(error), "danger");
-            }
-        }
-
-        async function sendPasswordChangeSms() {
-            if (!currentUser?.phoneNumber) return;
-            const sendBtn = document.getElementById("sendPasswordSmsBtn");
-            const newPassword = document.getElementById("smsNewPassword")?.value || "";
-            if (newPassword.length < 6) {
-                showToast("Parola nouă trebuie să aibă cel puțin 6 caractere.", "warning");
-                return;
-            }
-            try {
-                passwordSmsVerificationId = null;
-                setButtonBusy(sendBtn, true, "Se trimite...");
-                const provider = new PhoneAuthProvider(auth);
-                passwordSmsVerificationId = await provider.verifyPhoneNumber(currentUser.phoneNumber, getRecaptchaVerifier());
-                document.getElementById("passwordSmsBlock")?.classList.remove("d-none");
-                showToast("Codul SMS a fost trimis.", "success");
-            } catch (error) {
-                resetRecaptcha();
-                showToast(getFirebaseErrorMessage(error), "danger");
-            } finally {
-                setButtonBusy(sendBtn, false);
-            }
-        }
-
-        async function confirmPasswordChangeSms() {
-            if (!currentUser || !passwordSmsVerificationId) return;
-            const code = document.getElementById("passwordSmsCode")?.value.trim();
-            const newPassword = document.getElementById("smsNewPassword")?.value || "";
-            if (!code || newPassword.length < 6) {
-                showToast("Completează codul și parola nouă.", "warning");
-                return;
-            }
-            try {
-                const credential = PhoneAuthProvider.credential(passwordSmsVerificationId, code);
-                await reauthenticateWithCredential(currentUser, credential);
-                await updatePassword(currentUser, newPassword);
-                showToast("Parola a fost schimbată.", "success");
-                renderAccount();
-            } catch (error) {
-                showToast(getFirebaseErrorMessage(error), "danger");
-            }
         }
 
         async function renderTracking() {
@@ -5410,16 +5939,41 @@ const ruProductMap = {
 
         function renderBrands() {
             const brandLogos = {
-                ORION: "https://i.imgur.com/7NXjHRI.jpeg",
-                POLESIE: "https://i.imgur.com/pABzDq4.jpeg",
-                WENYI: "https://i.imgur.com/2csR5BJ.jpeg",
-                HDTOYS: "https://i.imgur.com/YbWp6RD.jpeg"
+                "Aist": "/imagini/aist.webp",
+                "Bebico": "/imagini/bebico.webp",
+                "Caider": "/imagini/caider.webp",
+                "Dake": "/imagini/dake.webp",
+                "Doloni": "/imagini/doloni.webp",
+                "Dolu": "/imagini/dolu.webp",
+                "Dolu, Technok": "/imagini/dolu-technok.webp",
+                "Dorința": "/imagini/dorinta.webp",
+                "HD": "/imagini/hd.webp",
+                "Hola": "/imagini/hola.webp",
+                "Huanger": "/imagini/huanger.webp",
+                "Ideyka": "/imagini/ideyka.webp",
+                "INTEX": "/imagini/intex.webp",
+                "Jiajia": "/imagini/jiajia.webp",
+                "Knopa": "/imagini/knopa.webp",
+                "Little Star": "/imagini/little-star.webp",
+                "Megatoys": "/imagini/megatoys.webp",
+                "MSZ": "/imagini/msz.webp",
+                "Orion": "/imagini/orion.webp",
+                "Polesie": "/imagini/polesie.webp",
+                "Rastar": "/imagini/rastar.webp",
+                "Riki Baby": "/imagini/riki-baby.webp",
+                "RTM": "/imagini/rtm.webp",
+                "RTM Scooter": "/imagini/rtm-scooter.webp",
+                "Strateg": "/imagini/strateg.webp",
+                "Technok": "/imagini/technok.webp",
+                "Tooky toy": "/imagini/tooky-toy.webp",
+                "Trefl": "/imagini/trefl.webp",
+                "Wenyi": "/imagini/wenyi.webp",
             };
             appEl.innerHTML = `
                 ${breadcrumb("Branduri")}
                 <div class="surface p-3 p-md-4">
                     <h2 class="fw-bold mb-4">Branduri</h2>
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+                    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
                         ${Object.entries(brandLogos).map(([brand, logo]) => `
                             <div class="col">
                                 <div class="brand-card" onclick="window.filterByBrand('${brand}')">
@@ -5433,7 +5987,14 @@ const ruProductMap = {
         }
 
         window.filterByBrand = function(brand) {
-            pendingFilter = brand;
+            const resolvedBrand = resolveBrandForShopFilter(brand);
+            shopState.filterTerm = "";
+            shopState.category = "";
+            shopState.subcategory = "";
+            shopState.brand = resolvedBrand;
+            shopState.age = "";
+            shopState.currentPage = 1;
+            pendingFilter = null;
             window.location.hash = "shop";
             renderPage();
         };
@@ -5445,7 +6006,7 @@ const ruProductMap = {
                     <h2 class="fw-bold mb-4">Contactează-ne</h2>
                     <div class="contact-info-item"><i class="fas fa-phone-alt"></i><span>Telefon: <a href="tel:+37369229828">069229828</a> / <a href="tel:+37369923677">069923677</a></span></div>
                     <div class="contact-info-item"><i class="far fa-envelope"></i><span>Email: <a href="mailto:rt_toys@mail.ru">rt_toys@mail.ru</a></span></div>
-                    <div class="contact-info-item"><i class="fas fa-map-marker-alt"></i><span>Adresă: or. Stăuceni, str. Constructorilor 5</span></div>
+                    <div class="contact-info-item"><i class="fas fa-map-marker-alt"></i><span>Adresă: ${STORE_ADDRESS_LABEL}</span></div>
                     <div class="contact-info-item"><i class="far fa-clock"></i><span>Program: Luni-Sâmbătă 8:00-19:00, Duminică 8:00-15:00</span></div>
                     <h5 class="fw-bold mt-4">Social media</h5>
                     <div class="d-flex gap-3 flex-wrap mt-3">
@@ -5461,7 +6022,7 @@ const ruProductMap = {
                 ${breadcrumb("Promoții")}
                 <div class="surface p-3 p-md-4">
                     <h2 class="fw-bold mb-3">Promoții și reduceri</h2>
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                    <div class="row row-cols-2 row-cols-md-2 row-cols-xl-3 g-3 g-md-4">
                         ${products.length ? products.map((product) => productCard(product)).join("") : `<div class="col-12"><div class="alert alert-info mb-0">Nu există promoții active momentan.</div></div>`}
                     </div>
                 </div>
@@ -5474,7 +6035,7 @@ const ruProductMap = {
                 ${breadcrumb("Produse noi")}
                 <div class="surface p-3 p-md-4">
                     <h2 class="fw-bold mb-3">Produse noi</h2>
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                    <div class="row row-cols-2 row-cols-md-2 row-cols-xl-3 g-3 g-md-4">
                         ${products.map((product) => productCard(product)).join("")}
                     </div>
                 </div>
@@ -5507,6 +6068,11 @@ const ruProductMap = {
             if (pendingFilter && currentPage === "shop") {
                 const filter = pendingFilter;
                 pendingFilter = null;
+                shopState.category = "";
+                shopState.subcategory = "";
+                shopState.brand = "";
+                shopState.age = "";
+                shopState.currentPage = 1;
                 renderShop(filter);
                 return;
             }
@@ -5522,6 +6088,7 @@ const ruProductMap = {
                 exterior: renderExteriorPage,
                 bebelusi: renderBebelusiPage,
                 transport: renderTransportPage,
+                carti: renderBooksPage,
                 cart: renderCart,
                 checkout: renderCheckout,
                 wishlist: renderWishlist,
@@ -5544,23 +6111,15 @@ const ruProductMap = {
             const email = document.getElementById("regEmail").value.trim();
             const password = document.getElementById("regPassword").value;
             const fullName = document.getElementById("regFullName").value.trim();
-            const phoneRaw = document.getElementById("regPhone").value;
-            const phone = phoneRaw ? normalizeMdPhone(phoneRaw) : "";
-
-            if (phone && !isValidMdPhone(phone)) {
-                setAuthMessage("Telefonul trebuie să fie în format Moldova: +373xxxxxxxx.", "danger");
-                return;
-            }
-
             try {
                 setAuthMessage("Se creează contul...", "muted");
                 const credential = await createUserWithEmailAndPassword(auth, email, password);
                 if (fullName) await updateProfile(credential.user, { displayName: fullName });
-                accountProfile = { fullName, email, phone, city: "Chișinău", address: "", phoneVerified: false };
+                accountProfile = { fullName, email, phone: "", city: "Chișinău", address: "", phoneVerified: false };
                 await setDoc(doc(db, "users", credential.user.uid), {
                     profile: accountProfile,
                     email,
-                    phoneNumber: phone,
+                    phoneNumber: "",
                     cart: sanitizeCart(cart),
                     wishlist: sanitizeWishlist(wishlist),
                     purchasedProducts: [],
@@ -5602,46 +6161,6 @@ const ruProductMap = {
             }
         }
 
-        async function sendPhoneLoginCode() {
-            const phoneInput = document.getElementById("phoneNumber");
-            const sendBtn = document.getElementById("sendPhoneCodeBtn");
-            const phone = normalizeMdPhone(phoneInput.value);
-            if (!isValidMdPhone(phone)) {
-                setAuthMessage("Introdu un număr Moldova valid: +373xxxxxxxx.", "danger");
-                return;
-            }
-            try {
-                phoneInput.value = phone;
-                phoneLoginConfirmation = null;
-                setButtonBusy(sendBtn, true, "Se trimite...");
-                setAuthMessage("Se trimite codul SMS...", "muted");
-                phoneLoginConfirmation = await signInWithPhoneNumber(auth, phone, getRecaptchaVerifier());
-                document.getElementById("smsVerificationDiv")?.classList.remove("d-none");
-                setAuthMessage("Cod SMS trimis. Dacă nu ajunge, verifică SMS region policy Moldova/MD, planul Blaze sau folosește număr de test în Firebase.", "success");
-            } catch (error) {
-                resetRecaptcha();
-                setAuthMessage(getFirebaseErrorMessage(error), "danger");
-            } finally {
-                setButtonBusy(sendBtn, false);
-            }
-        }
-
-        async function verifyPhoneLoginCode() {
-            const code = document.getElementById("smsCode").value.trim();
-            if (!phoneLoginConfirmation || !code) {
-                setAuthMessage("Introdu codul primit prin SMS.", "danger");
-                return;
-            }
-            try {
-                await phoneLoginConfirmation.confirm(code);
-                hideAuthModal();
-                showToast("Autentificare cu telefon reușită.", "success");
-                window.location.hash = "account";
-            } catch (error) {
-                setAuthMessage(getFirebaseErrorMessage(error), "danger");
-            }
-        }
-
         async function sendResetEmail() {
             const email = document.getElementById("resetEmail").value.trim();
             if (!email) {
@@ -5656,103 +6175,90 @@ const ruProductMap = {
             }
         }
 
-        async function sendPhoneResetCode() {
-            const phoneInput = document.getElementById("resetPhone");
-            const sendBtn = document.getElementById("sendPhoneResetBtn");
-            const phone = normalizeMdPhone(phoneInput.value);
-            if (!isValidMdPhone(phone)) {
-                setAuthMessage("Introdu un număr Moldova valid: +373xxxxxxxx.", "danger");
-                return;
-            }
-            try {
-                phoneInput.value = phone;
-                phoneResetConfirmation = null;
-                setButtonBusy(sendBtn, true, "Se trimite...");
-                setAuthMessage("Se trimite codul SMS...", "muted");
-                phoneResetConfirmation = await signInWithPhoneNumber(auth, phone, getRecaptchaVerifier());
-                document.getElementById("phoneResetCodeBlock")?.classList.remove("d-none");
-                setAuthMessage("Cod SMS trimis. După confirmare vei intra în contul legat de acel telefon.", "success");
-            } catch (error) {
-                resetRecaptcha();
-                setAuthMessage(getFirebaseErrorMessage(error), "danger");
-            } finally {
-                setButtonBusy(sendBtn, false);
-            }
-        }
-
-        async function confirmPhoneReset() {
-            const code = document.getElementById("resetPhoneCode").value.trim();
-            const newPassword = document.getElementById("resetPhoneNewPassword").value;
-            if (!phoneResetConfirmation || !code || newPassword.length < 6) {
-                setAuthMessage("Completează codul SMS și parola nouă.", "danger");
-                return;
-            }
-            try {
-                const result = await phoneResetConfirmation.confirm(code);
-                if (!hasProvider(result.user, "password")) {
-                    setAuthMessage("Telefon confirmat, dar acest cont nu are parolă email legată. Intră în cont și leagă email/parolă din Firebase sau folosește resetarea prin email.", "warning");
-                    window.location.hash = "account";
-                    return;
-                }
-                await updatePassword(result.user, newPassword);
-                hideAuthModal();
-                showToast("Parola a fost schimbată.", "success");
-                window.location.hash = "account";
-            } catch (error) {
-                setAuthMessage(getFirebaseErrorMessage(error), "danger");
-            }
-        }
-
-        const ADMIN_EMAILS = ["obor.russel@gmail.com"];
-        const LOCAL_ADMIN_PASSWORD = "bumbonel-admin";
-        const LOCAL_ADMIN_UNLOCK_KEY = "bumbonel_local_admin_unlocked";
-        const LOCAL_PRODUCTS_KEY = "bumbonel_local_products_v1";
-        const WOO_SYNC_SETTINGS_KEY = "bumbonel_woo_sync_settings_v1";
-        const DEFAULT_WOO_SITE_URL = "https://bumbonel.md";
-        const PRODUCTS_COLLECTION = "products";
-        let fallbackProducts = window.allProducts.map((product) => ({ ...product }));
         let productsHydrated = false;
 
-        function isLocalAdminUnlocked() {
-            try {
-                return localStorage.getItem(LOCAL_ADMIN_UNLOCK_KEY) === "1";
-            } catch {
-                return false;
+        function normalizeCatalogAssetPath(value) {
+            const raw = decodeMojibakeText(String(value || "")).trim();
+            if (!raw) return "";
+            if (/^(https?:)?\/\//i.test(raw) || raw.startsWith("data:") || raw.startsWith("blob:")) return raw;
+            let normalizedPath = raw.replace(/\\/g, "/").trim();
+            if (!normalizedPath) return "";
+            normalizedPath = normalizedPath.replace(/^\.\//, "");
+            if (normalizedPath.startsWith("../")) {
+                normalizedPath = normalizedPath.replace(/^(\.\.\/)+/, "");
             }
+            normalizedPath = normalizedPath.replace(/^\/+/, "");
+            return normalizedPath;
         }
 
-        function setLocalAdminUnlocked(unlocked) {
-            try {
-                if (unlocked) localStorage.setItem(LOCAL_ADMIN_UNLOCK_KEY, "1");
-                else localStorage.removeItem(LOCAL_ADMIN_UNLOCK_KEY);
-            } catch {
-                /* ignore localStorage errors */
+        function getAssetPathCandidates(src) {
+            const normalized = normalizeCatalogAssetPath(src);
+            if (!normalized) return { primary: "", candidates: [] };
+            if (/^(https?:)?\/\//i.test(normalized) || normalized.startsWith("data:") || normalized.startsWith("blob:")) {
+                return { primary: normalized, candidates: [] };
             }
-        }
-
-        function unlockLocalAdminWithPrompt() {
-            const pin = prompt("Parola admin local:");
-            if (pin === null) return false;
-            if (pin.trim() === LOCAL_ADMIN_PASSWORD) {
-                setLocalAdminUnlocked(true);
-                showToast("Acces admin local activat.", "success");
-                return true;
+            const candidates = [];
+            if (normalized.startsWith("catalog_images/")) {
+                candidates.push(`/${normalized}`, `jucarii_md_export_full/${normalized}`, `/jucarii_md_export_full/${normalized}`);
+            } else if (normalized.startsWith("jucarii_md_export_full/")) {
+                const withoutPrefix = normalized.replace(/^jucarii_md_export_full\//, "");
+                candidates.push(`/${normalized}`, withoutPrefix, `/${withoutPrefix}`);
+            } else {
+                candidates.push(`/${normalized}`);
             }
-            showToast("Parola admin local este incorecta.", "danger");
-            return false;
+            const deduped = Array.from(new Set(candidates.filter((candidate) => candidate && candidate !== normalized)));
+            return { primary: normalized, candidates: deduped };
         }
 
-        function getAdminWriteMode(user = currentUser) {
-            const email = String(user?.email || "").trim().toLowerCase();
-            return ADMIN_EMAILS.includes(email) ? "firebase" : "local";
-        }
-
-        function isAdminUser(user = currentUser) {
-            return ADMIN_EMAILS.includes(String(user?.email || "").trim().toLowerCase()) || isLocalAdminUnlocked();
+        function getImageFallbackData(src) {
+            const { primary, candidates } = getAssetPathCandidates(src);
+            return {
+                primary: primary || String(src || ""),
+                alt1: candidates[0] || "",
+                alt2: candidates[1] || "",
+                alt3: candidates[2] || ""
+            };
         }
 
         function getPrimaryImage(product) {
-            return product?.img || product?.images?.[0] || "https://placehold.co/300x300?text=Bumbonel";
+            return normalizeCatalogAssetPath(product?.img) || normalizeCatalogAssetPath(product?.images?.[0]) || "https://placehold.co/300x300?text=Bumbonel";
+        }
+
+        function normalizeProductEncoding(product = {}) {
+            const decodeField = (value) => typeof value === "string" ? decodeMojibakeText(value) : value;
+            const normalizedImages = Array.isArray(product.images)
+                ? product.images.map((image) => normalizeCatalogAssetPath(decodeField(image))).filter(Boolean)
+                : [];
+            const normalizedVideoUrls = Array.isArray(product.videoUrls)
+                ? product.videoUrls.map((url) => decodeField(url)).filter(Boolean)
+                : [];
+            const normalizedSpecs = Array.isArray(product.extraSpecs)
+                ? product.extraSpecs.map((spec) => ({
+                    label: decodeField(spec?.label || ""),
+                    value: decodeField(spec?.value || "")
+                }))
+                : [];
+            const normalized = {
+                ...product,
+                name: decodeField(product.name || ""),
+                category: decodeField(product.category || ""),
+                subcategory: decodeField(product.subcategory || ""),
+                brand: decodeField(product.brand || ""),
+                age: decodeField(product.age || ""),
+                code: decodeField(product.code || ""),
+                material: decodeField(product.material || ""),
+                dimensions: decodeField(product.dimensions || ""),
+                weight: decodeField(product.weight || ""),
+                stock: decodeField(product.stock || ""),
+                shortDescription: decodeField(product.shortDescription || ""),
+                description: decodeField(product.description || ""),
+                img: normalizeCatalogAssetPath(decodeField(product.img || "")),
+                images: normalizedImages,
+                videoUrls: normalizedVideoUrls,
+                extraSpecs: normalizedSpecs
+            };
+            if (!normalized.img && normalized.images.length) normalized.img = normalized.images[0];
+            return normalized;
         }
 
         function extractLines(value) {
@@ -5792,326 +6298,23 @@ const ruProductMap = {
                 .join("\n");
         }
 
-        function normalizeSiteUrl(value) {
-            let url = String(value || "").trim();
-            if (!url) return DEFAULT_WOO_SITE_URL;
-            if (!/^https?:\/\//i.test(url)) url = `https://${url}`;
-            try {
-                const parsed = new URL(url);
-                return parsed.origin.replace(/\/+$/, "");
-            } catch {
-                return DEFAULT_WOO_SITE_URL;
-            }
-        }
-
-        function loadWooSyncSettings() {
-            try {
-                const parsed = JSON.parse(localStorage.getItem(WOO_SYNC_SETTINGS_KEY) || "{}");
-                return {
-                    siteUrl: normalizeSiteUrl(parsed.siteUrl || DEFAULT_WOO_SITE_URL)
-                };
-            } catch {
-                return { siteUrl: DEFAULT_WOO_SITE_URL };
-            }
-        }
-
-        function saveWooSyncSettings(settings = {}) {
-            const next = {
-                siteUrl: normalizeSiteUrl(settings.siteUrl || DEFAULT_WOO_SITE_URL)
-            };
-            try {
-                localStorage.setItem(WOO_SYNC_SETTINGS_KEY, JSON.stringify(next));
-            } catch {
-                showToast("Nu am putut salva setarile WooCommerce local.", "danger");
-            }
-            return next;
-        }
-
-        function csvCell(value) {
-            const text = String(value ?? "");
-            return /[",\n]/.test(text) ? `"${text.replace(/"/g, "\"\"")}"` : text;
-        }
-
-        function parseDimensionsForWoo(value) {
-            const raw = String(value || "").replace(/,/g, ".");
-            const match = raw.match(/(\d+(?:\.\d+)?)\D+(\d+(?:\.\d+)?)\D+(\d+(?:\.\d+)?)/);
-            if (!match) return { length: "", width: "", height: "" };
+        function parseCategoryPath(rawCategories) {
+            const raw = String(rawCategories || "").trim();
+            if (!raw) return { category: "", subcategory: "" };
+            const firstCategory = raw.split(",").map((item) => item.trim()).find(Boolean) || "";
+            if (!firstCategory) return { category: "", subcategory: "" };
+            const parts = firstCategory.split(">").map((item) => item.trim()).filter(Boolean);
+            if (!parts.length) return { category: "", subcategory: "" };
             return {
-                length: match[1] || "",
-                width: match[2] || "",
-                height: match[3] || ""
+                category: parts[0] || "",
+                subcategory: parts[1] || ""
             };
         }
 
-        function normalizeShortDescription(product) {
-            const explicit = String(product?.shortDescription || "").trim();
-            if (explicit) return explicit;
-            const firstParagraph = String(product?.description || "").split(/\r?\n/).map((line) => line.trim()).find(Boolean) || "";
-            return firstParagraph.slice(0, 280);
-        }
-
-        function buildWooCategories(product) {
-            const parent = String(product?.category || "").trim();
-            const child = String(product?.subcategory || "").trim();
-            if (parent && child) return `${parent} > ${child}`;
-            return parent || child;
-        }
-
-        function getWooImageList(product) {
-            const urls = extractLines(product?.images?.length ? product.images : product?.img);
-            const uniques = [];
-            const seen = new Set();
-            urls.forEach((url) => {
-                const clean = String(url || "").trim();
-                if (!/^https?:\/\//i.test(clean)) return;
-                if (seen.has(clean)) return;
-                seen.add(clean);
-                uniques.push(clean);
-            });
-            return uniques;
-        }
-
-        function buildWooCsvContent(products) {
-            const headers = [
-                "Type",
-                "SKU",
-                "Name",
-                "Published",
-                "Is featured?",
-                "Visibility in catalog",
-                "Short description",
-                "Description",
-                "Regular price",
-                "Sale price",
-                "Categories",
-                "Images",
-                "In stock?",
-                "Stock",
-                "Weight (kg)",
-                "Length (cm)",
-                "Width (cm)",
-                "Height (cm)"
-            ];
-            const rows = [headers];
-            (Array.isArray(products) ? products : []).forEach((product) => {
-                if (product?.active === false) return;
-                const dimensions = parseDimensionsForWoo(product.dimensions);
-                const images = getWooImageList(product);
-                const stockDigits = String(product.stock || "").match(/\d+/);
-                const stockValue = stockDigits ? stockDigits[0] : "";
-                const currentPrice = Number(product.price || 0);
-                const previousPrice = toNumberOrNull(product.oldPrice);
-                const hasDiscount = previousPrice !== null && previousPrice > currentPrice;
-                const regularPrice = hasDiscount ? previousPrice : currentPrice;
-                const salePrice = hasDiscount ? currentPrice : "";
-                rows.push([
-                    "simple",
-                    String(product.code || product.id || "").trim(),
-                    String(product.name || "").trim(),
-                    "1",
-                    product.isNew ? "1" : "0",
-                    "visible",
-                    normalizeShortDescription(product),
-                    String(product.description || "").trim(),
-                    Number.isFinite(regularPrice) ? String(regularPrice) : "",
-                    salePrice !== "" ? String(salePrice) : "",
-                    buildWooCategories(product),
-                    images.join(", "),
-                    stockValue ? "1" : "0",
-                    stockValue,
-                    String(product.weight || "").replace(",", ".").replace(/[^\d.]/g, ""),
-                    dimensions.length,
-                    dimensions.width,
-                    dimensions.height
-                ]);
-            });
-            return `${rows.map((row) => row.map(csvCell).join(",")).join("\n")}\n`;
-        }
-
-        function downloadTextFile(filename, content, mimeType = "text/plain;charset=utf-8") {
-            const blob = new Blob([content], { type: mimeType });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-            URL.revokeObjectURL(url);
-        }
-
-        function getWooSiteUrlFromAdmin() {
-            const fromInput = document.getElementById("wooSiteUrl")?.value || "";
-            const settings = saveWooSyncSettings({ siteUrl: fromInput || loadWooSyncSettings().siteUrl });
-            return settings.siteUrl;
-        }
-
-        function openWooImportPage() {
-            const siteUrl = getWooSiteUrlFromAdmin();
-            const importUrl = `${siteUrl}/wp-admin/edit.php?post_type=product&page=product_importer`;
-            window.open(importUrl, "_blank", "noopener");
-        }
-
-        function exportWooCsvFromAdmin() {
-            const activeProducts = (Array.isArray(window.allProducts) ? window.allProducts : []).filter((item) => item?.active !== false);
-            if (!activeProducts.length) {
-                showToast("Nu exista produse active pentru export CSV.", "warning");
-                return;
-            }
-            const csv = buildWooCsvContent(activeProducts);
-            const noPublicImageCount = activeProducts.filter((product) => getWooImageList(product).length === 0).length;
-            const ts = new Date().toISOString().replace(/[:T]/g, "-").slice(0, 19);
-            downloadTextFile(`woo_import_${ts}.csv`, csv, "text/csv;charset=utf-8");
-            if (noPublicImageCount > 0) {
-                showToast(`CSV WooCommerce generat (${activeProducts.length} produse). ${noPublicImageCount} produse nu au link public imagine (http/https).`, "warning");
-                return;
-            }
-            showToast(`CSV WooCommerce generat (${activeProducts.length} produse).`, "success");
-        }
-
-        function saveWooSettingsFromAdmin() {
-            const siteUrl = document.getElementById("wooSiteUrl")?.value || "";
-            const saved = saveWooSyncSettings({ siteUrl });
-            const field = document.getElementById("wooSiteUrl");
-            if (field) field.value = saved.siteUrl;
-            showToast("Setarile WooCommerce au fost salvate.", "success");
-        }
-
-        function normalizeManagedProduct(docId, data = {}) {
-            const idValue = data.id ?? docId;
-            const numericId = Number(idValue);
-            const id = Number.isFinite(numericId) ? numericId : idValue;
-            const images = extractLines(data.images);
-            const videoUrls = extractLines(data.videoUrls || data.videoUrl);
-            const extraSpecs = Array.isArray(data.extraSpecs) ? data.extraSpecs : parseExtraSpecs(data.extraSpecsText || "");
-            return {
-                id,
-                firestoreId: String(docId),
-                managedInFirestore: true,
-                active: data.active !== false,
-                name: data.name || "Produs nou",
-                category: data.category || "jucarii",
-                subcategory: data.subcategory || "",
-                brand: data.brand || "",
-                age: data.age || "",
-                price: Number(data.price || 0),
-                oldPrice: toNumberOrNull(data.oldPrice),
-                img: data.img || images[0] || "https://placehold.co/300x300?text=Bumbonel",
-                images,
-                isNew: Boolean(data.isNew),
-                code: data.code || "",
-                material: data.material || "",
-                dimensions: data.dimensions || "",
-                weight: data.weight || "",
-                stock: data.stock || "",
-                warehouse: data.warehouse || data.depot || "",
-                shortDescription: data.shortDescription || data.short_description || "",
-                description: data.description || "",
-                videoUrls,
-                extraSpecs
-            };
-        }
-
-        function applyManagedProductToMap(productMap, product) {
-            if (!product) return;
-            if (product.active === false) {
-                productMap.delete(String(product.id));
-                return;
-            }
-            productMap.set(String(product.id), product);
-        }
-
-        function loadLocalManagedProducts() {
-            try {
-                const parsed = JSON.parse(localStorage.getItem(LOCAL_PRODUCTS_KEY) || "[]");
-                if (!Array.isArray(parsed)) return [];
-                return parsed.map((item) => normalizeManagedProduct(String(item.id ?? ""), item));
-            } catch {
-                return [];
-            }
-        }
-
-        function saveLocalManagedProducts(products) {
-            try {
-                localStorage.setItem(LOCAL_PRODUCTS_KEY, JSON.stringify(products));
-            } catch {
-                showToast("Nu am putut salva local produsele admin.", "danger");
-            }
-        }
-
-        function upsertLocalManagedProduct(product) {
-            const list = loadLocalManagedProducts();
-            const index = list.findIndex((item) => String(item.id) === String(product.id));
-            if (index === -1) list.push(product);
-            else list[index] = product;
-            saveLocalManagedProducts(list);
-        }
-
-        async function hydrateStoreProducts(options = {}) {
-            const silent = Boolean(options.silent);
-            const skipRemote = Boolean(options.skipRemote);
-            const productMap = new Map(fallbackProducts.map((product) => [String(product.id), { ...product }]));
-            loadLocalManagedProducts().forEach((product) => {
-                applyManagedProductToMap(productMap, product);
-            });
-            if (skipRemote) {
-                window.allProducts = Array.from(productMap.values());
-                productsHydrated = true;
-                return;
-            }
-            try {
-                const snapshot = await getDocs(collection(db, PRODUCTS_COLLECTION));
-                snapshot.forEach((item) => {
-                    const product = normalizeManagedProduct(item.id, item.data());
-                    applyManagedProductToMap(productMap, product);
-                });
-                window.allProducts = Array.from(productMap.values());
-                productsHydrated = true;
-            } catch (error) {
-                console.error("Nu am putut incarca produsele din Firestore:", error);
-                window.allProducts = Array.from(productMap.values());
-                if (!silent) showToast("Nu am putut incarca produsele din Firebase. Verifica regulile Firestore.", "danger");
-            }
-        }
-
-        function getNextProductId() {
-            const maxId = window.allProducts.reduce((max, product) => {
-                const id = Number(product.id);
-                return Number.isFinite(id) ? Math.max(max, id) : max;
-            }, 0);
-            return Math.max(Date.now(), maxId + 1);
-        }
-
-        function safeStorageFileName(name) {
-            return String(name || "imagine")
-                .toLowerCase()
-                .replace(/[^a-z0-9._-]+/g, "-")
-                .replace(/-+/g, "-")
-                .replace(/^-|-$/g, "") || "imagine";
-        }
-
-        async function readFilesAsDataUrls(files) {
-            const readers = Array.from(files || []).filter((file) => file.type?.startsWith("image/")).map((file) => new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(String(reader.result || ""));
-                reader.onerror = () => resolve("");
-                reader.readAsDataURL(file);
-            }));
-            const images = await Promise.all(readers);
-            return images.filter(Boolean);
-        }
-
-        async function uploadAdminImages(productId, files, mode = "firebase") {
-            if (mode !== "firebase") return readFilesAsDataUrls(files);
-            const uploaded = [];
-            for (const file of Array.from(files || [])) {
-                if (!file.type?.startsWith("image/")) continue;
-                const path = `products/${productId}/${Date.now()}-${Math.random().toString(36).slice(2)}-${safeStorageFileName(file.name)}`;
-                const imageRef = storageRef(storage, path);
-                await uploadBytes(imageRef, file, { contentType: file.type });
-                uploaded.push(await getDownloadURL(imageRef));
-            }
-            return uploaded;
+        async function hydrateStoreProducts() {
+            const baseProducts = await getBaseCatalogProducts();
+            window.allProducts = baseProducts.map((product) => normalizeProductEncoding({ ...product }));
+            productsHydrated = true;
         }
 
         function getYoutubeEmbedUrl(url) {
@@ -6172,8 +6375,7 @@ const ruProductMap = {
             const specsBody = appEl.querySelector(".specs-table tbody");
             if (!specsBody) return;
             const extraRows = [
-                ["Stoc / depozit", product.stock || "La cerere"],
-                ["Loc depozit", product.warehouse || "N/A"],
+                ["Stoc", product.stock || "La cerere"],
                 ...(Array.isArray(product.extraSpecs) ? product.extraSpecs.map((spec) => [spec.label, spec.value]) : [])
             ].filter(([label, value]) => label && value);
             extraRows.forEach(([label, value]) => {
@@ -6189,309 +6391,10 @@ const ruProductMap = {
             const product = getProduct(productId);
             if (product) enhanceRenderedProduct(product);
         };
-
-        function adminProductCard(product) {
-            return `
-                <div class="col-md-6 col-xl-4">
-                    <div class="app-card p-3 h-100">
-                        <div class="d-flex gap-3">
-                            <img src="${escapeHtml(getPrimaryImage(product))}" alt="${escapeHtml(product.name)}" style="width:72px;height:72px;object-fit:cover;border-radius:10px;background:#fff;">
-                            <div class="flex-grow-1">
-                                <h6 class="fw-bold mb-1">${escapeHtml(product.name)}</h6>
-                                <div class="small-muted">${escapeHtml(product.brand || "Fara brand")} · ${money(product.price)}</div>
-                                <div class="small-muted">Stoc: ${escapeHtml(product.stock || "La cerere")}</div>
-                            </div>
-                        </div>
-                        <div class="d-flex gap-2 mt-3">
-                            <button class="btn btn-sm btn-outline-primary-custom rounded-pill" onclick="window.editAdminProduct('${escapeHtml(product.id)}')">Editeaza</button>
-                            <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="window.hideAdminProduct('${escapeHtml(product.id)}')">Ascunde</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderAdmin(editId = null) {
-            if (!isAdminUser() && !unlockLocalAdminWithPrompt()) {
-                appEl.innerHTML = `
-                    ${breadcrumb("Administrare")}
-                    <div class="surface p-4 text-center">
-                        <div class="alert alert-warning mb-3">Acces admin blocat. Introdu parola locala pentru a continua.</div>
-                        <button class="btn btn-primary-custom rounded-pill px-4" id="retryAdminUnlockBtn">Deblocheaza admin</button>
-                    </div>
-                `;
-                document.getElementById("retryAdminUnlockBtn")?.addEventListener("click", () => {
-                    if (unlockLocalAdminWithPrompt()) renderAdmin(editId);
-                });
-                return;
-            }
-
-            const adminMode = getAdminWriteMode();
-            const wooSettings = loadWooSyncSettings();
-            const product = editId ? getProduct(editId) : null;
-            const imagesText = product ? extractLines(product.images?.length ? product.images : product.img).join("\n") : "";
-            const videosText = product ? extractLines(product.videoUrls || product.videoUrl).join("\n") : "";
-            const extraSpecsText = product ? formatExtraSpecs(product.extraSpecs) : "";
-            const products = [...window.allProducts].sort((a, b) => String(a.name).localeCompare(String(b.name), "ro"));
-
-            appEl.innerHTML = `
-                ${breadcrumb("Administrare produse")}
-                <div class="surface p-3 p-md-4">
-                    <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap mb-3">
-                        <div>
-                            <h2 class="fw-bold mb-1">Administrare produse</h2>
-                            <p class="small-muted mb-0">${adminMode === "firebase" ? "Pozele se incarca in Firebase Storage, iar produsele se salveaza in Firestore." : "Mod local activ: produsele si pozele se salveaza in acest browser (localStorage)."}</p>
-                        </div>
-                        <a class="btn btn-outline-primary-custom rounded-pill" href="#shop">Vezi magazinul</a>
-                    </div>
-
-                    <div class="app-card p-3 mb-4">
-                        <h5 class="fw-bold mb-2">Compatibilitate WooCommerce (TopHost)</h5>
-                        <p class="small-muted mb-3">Genereaza CSV pentru metoda Products -> Import si deschide direct pagina de import din wp-admin.</p>
-                        <div class="row g-2 align-items-end">
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold" for="wooSiteUrl">Domeniu magazin WordPress</label>
-                                <input class="form-control rounded-pill" id="wooSiteUrl" value="${escapeHtml(wooSettings.siteUrl)}" placeholder="https://bumbonel.md">
-                            </div>
-                            <div class="col-md-6 d-flex gap-2 flex-wrap">
-                                <button type="button" class="btn btn-outline-primary-custom rounded-pill" id="wooRememberSettingsBtn">
-                                    Salveaza domeniul
-                                </button>
-                                <button type="button" class="btn btn-outline-primary-custom rounded-pill" id="wooOpenImportBtn">
-                                    Deschide Import Woo
-                                </button>
-                                <button type="button" class="btn btn-primary-custom rounded-pill" id="wooExportCsvBtn">
-                                    Export CSV Woo
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <form id="adminProductForm" class="row g-3 app-card p-3 mb-4">
-                        <input type="hidden" id="adminProductId" value="${escapeHtml(product?.id || "")}">
-                        <div class="col-md-8">
-                            <label class="form-label fw-semibold" for="adminName">Nume produs</label>
-                            <input class="form-control rounded-pill" id="adminName" value="${escapeHtml(product?.name || "")}" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label fw-semibold" for="adminCode">Cod produs</label>
-                            <input class="form-control rounded-pill" id="adminCode" value="${escapeHtml(product?.code || "")}">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label fw-semibold" for="adminCategory">Categorie</label>
-                            <input class="form-control rounded-pill" id="adminCategory" value="${escapeHtml(product?.category || "jucarii")}">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label fw-semibold" for="adminSubcategory">Subcategorie</label>
-                            <input class="form-control rounded-pill" id="adminSubcategory" value="${escapeHtml(product?.subcategory || "")}">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label fw-semibold" for="adminBrand">Brand</label>
-                            <input class="form-control rounded-pill" id="adminBrand" value="${escapeHtml(product?.brand || "")}">
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label fw-semibold" for="adminPrice">Pret MDL</label>
-                            <input type="number" step="0.01" class="form-control rounded-pill" id="adminPrice" value="${escapeHtml(product?.price || "")}" required>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label fw-semibold" for="adminOldPrice">Pret vechi</label>
-                            <input type="number" step="0.01" class="form-control rounded-pill" id="adminOldPrice" value="${escapeHtml(product?.oldPrice || "")}">
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label fw-semibold" for="adminStock">Stoc / depozit</label>
-                            <input class="form-control rounded-pill" id="adminStock" value="${escapeHtml(product?.stock || "")}" placeholder="ex: 12 bucati">
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label fw-semibold" for="adminAge">Varsta</label>
-                            <input class="form-control rounded-pill" id="adminAge" value="${escapeHtml(product?.age || "")}">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label fw-semibold" for="adminMaterial">Material</label>
-                            <input class="form-control rounded-pill" id="adminMaterial" value="${escapeHtml(product?.material || "")}">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label fw-semibold" for="adminDimensions">Dimensiuni</label>
-                            <input class="form-control rounded-pill" id="adminDimensions" value="${escapeHtml(product?.dimensions || "")}">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label fw-semibold" for="adminWeight">Greutate</label>
-                            <input class="form-control rounded-pill" id="adminWeight" value="${escapeHtml(product?.weight || "")}">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold" for="adminWarehouse">Loc depozit</label>
-                            <input class="form-control rounded-pill" id="adminWarehouse" value="${escapeHtml(product?.warehouse || "")}" placeholder="ex: Depozit Stauceni, raft A2">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold" for="adminImages">Poze de pe PC</label>
-                            <input type="file" class="form-control rounded-pill" id="adminImages" accept="image/*" multiple>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold" for="adminImageLinks">Linkuri poze existente</label>
-                            <textarea class="form-control" id="adminImageLinks" rows="5" placeholder="Cate un link pe rand">${escapeHtml(imagesText)}</textarea>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-semibold" for="adminVideoUrls">Linkuri video</label>
-                            <textarea class="form-control" id="adminVideoUrls" rows="5" placeholder="YouTube, TikTok sau alt link video">${escapeHtml(videosText)}</textarea>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label fw-semibold" for="adminShortDescription">Descriere scurta</label>
-                            <textarea class="form-control" id="adminShortDescription" rows="3" placeholder="Text scurt pentru WooCommerce">${escapeHtml(product?.shortDescription || "")}</textarea>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label fw-semibold" for="adminDescription">Descriere</label>
-                            <textarea class="form-control" id="adminDescription" rows="6" required>${escapeHtml(product?.description || "")}</textarea>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label fw-semibold" for="adminExtraSpecs">Specificatii extra</label>
-                            <textarea class="form-control" id="adminExtraSpecs" rows="4" placeholder="Culoare: Rosu&#10;Baterie: 12V">${escapeHtml(extraSpecsText)}</textarea>
-                        </div>
-                        <div class="col-md-6 d-flex align-items-center gap-4 flex-wrap">
-                            <label class="form-check">
-                                <input class="form-check-input" type="checkbox" id="adminIsNew" ${product?.isNew ? "checked" : ""}>
-                                <span class="form-check-label fw-semibold">Produs nou</span>
-                            </label>
-                            <label class="form-check">
-                                <input class="form-check-input" type="checkbox" id="adminActive" ${product?.active === false ? "" : "checked"}>
-                                <span class="form-check-label fw-semibold">Vizibil in magazin</span>
-                            </label>
-                        </div>
-                        <div class="col-md-6 text-md-end">
-                            <button type="button" class="btn btn-light rounded-pill px-4 me-2" id="adminClearBtn">Produs nou</button>
-                            <button class="btn btn-primary-custom rounded-pill px-4" id="adminSaveBtn" type="submit">
-                                <i class="fas fa-save me-2"></i>Salveaza produs
-                            </button>
-                        </div>
-                    </form>
-
-                    <h4 class="fw-bold mb-3">Produse</h4>
-                    <div class="row g-3">
-                        ${products.map((item) => adminProductCard(item)).join("")}
-                    </div>
-                </div>
-            `;
-
-            document.getElementById("adminProductForm")?.addEventListener("submit", saveAdminProduct);
-            document.getElementById("adminClearBtn")?.addEventListener("click", () => renderAdmin());
-            document.getElementById("wooRememberSettingsBtn")?.addEventListener("click", saveWooSettingsFromAdmin);
-            document.getElementById("wooOpenImportBtn")?.addEventListener("click", openWooImportPage);
-            document.getElementById("wooExportCsvBtn")?.addEventListener("click", exportWooCsvFromAdmin);
-        }
-
-        async function saveAdminProduct(event) {
-            event.preventDefault();
-            if (!isAdminUser() && !unlockLocalAdminWithPrompt()) return;
-            const saveBtn = document.getElementById("adminSaveBtn");
-            const rawId = document.getElementById("adminProductId")?.value || "";
-            const id = rawId || getNextProductId();
-            const existing = getProduct(id);
-            const adminMode = getAdminWriteMode();
-            try {
-                setButtonBusy(saveBtn, true, "Se salveaza...");
-                const uploadedImages = await uploadAdminImages(id, document.getElementById("adminImages")?.files, adminMode);
-                let images = [...extractLines(document.getElementById("adminImageLinks")?.value), ...uploadedImages];
-                if (!images.length && existing) images = extractLines(existing.images?.length ? existing.images : existing.img);
-
-                const product = {
-                    id: Number.isFinite(Number(id)) ? Number(id) : id,
-                    name: document.getElementById("adminName").value.trim(),
-                    code: document.getElementById("adminCode").value.trim(),
-                    category: document.getElementById("adminCategory").value.trim() || "jucarii",
-                    subcategory: document.getElementById("adminSubcategory").value.trim(),
-                    brand: document.getElementById("adminBrand").value.trim(),
-                    age: document.getElementById("adminAge").value.trim(),
-                    price: Number(document.getElementById("adminPrice").value || 0),
-                    oldPrice: toNumberOrNull(document.getElementById("adminOldPrice").value),
-                    stock: document.getElementById("adminStock").value.trim(),
-                    warehouse: document.getElementById("adminWarehouse").value.trim(),
-                    material: document.getElementById("adminMaterial").value.trim(),
-                    dimensions: document.getElementById("adminDimensions").value.trim(),
-                    weight: document.getElementById("adminWeight").value.trim(),
-                    shortDescription: document.getElementById("adminShortDescription").value.trim(),
-                    description: document.getElementById("adminDescription").value.trim(),
-                    images,
-                    img: images[0] || "",
-                    videoUrls: extractLines(document.getElementById("adminVideoUrls")?.value),
-                    extraSpecs: parseExtraSpecs(document.getElementById("adminExtraSpecs")?.value),
-                    isNew: Boolean(document.getElementById("adminIsNew")?.checked),
-                    active: Boolean(document.getElementById("adminActive")?.checked),
-                    updatedAt: adminMode === "firebase" ? serverTimestamp() : new Date().toISOString(),
-                    updatedBy: currentUser?.email || "local-admin"
-                };
-                if (!existing?.managedInFirestore) {
-                    product.createdAt = adminMode === "firebase" ? serverTimestamp() : new Date().toISOString();
-                }
-                if (adminMode === "firebase") {
-                    await setDoc(doc(db, PRODUCTS_COLLECTION, String(id)), product, { merge: true });
-                    await hydrateStoreProducts();
-                } else {
-                    upsertLocalManagedProduct(product);
-                    await hydrateStoreProducts({ silent: true, skipRemote: true });
-                }
-                showToast("Produs salvat.", "success");
-                renderAdmin(product.id);
-            } catch (error) {
-                console.error("Nu am putut salva produsul:", error);
-                showToast("Nu am putut salva produsul.", "danger");
-            } finally {
-                setButtonBusy(saveBtn, false);
-            }
-        }
-
-        window.editAdminProduct = function(id) {
-            renderAdmin(id);
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        };
-
-        window.hideAdminProduct = async function(id) {
-            if (!isAdminUser() && !unlockLocalAdminWithPrompt()) return;
-            const adminMode = getAdminWriteMode();
-            const product = getProduct(id);
-            if (!product || !confirm(`Ascunzi produsul "${product.name}" din magazin?`)) return;
-            try {
-                const nextProduct = {
-                    ...product,
-                    active: false,
-                    updatedAt: adminMode === "firebase" ? serverTimestamp() : new Date().toISOString(),
-                    updatedBy: currentUser?.email || "local-admin"
-                };
-                if (adminMode === "firebase") {
-                    await setDoc(doc(db, PRODUCTS_COLLECTION, String(id)), nextProduct, { merge: true });
-                    await hydrateStoreProducts();
-                } else {
-                    upsertLocalManagedProduct(nextProduct);
-                    await hydrateStoreProducts({ silent: true, skipRemote: true });
-                }
-                showToast("Produs ascuns.", "success");
-                renderAdmin();
-            } catch (error) {
-                console.error("Nu am putut ascunde produsul:", error);
-                showToast("Nu am putut ascunde produsul.", "danger");
-            }
-        };
-
         const originalRenderPage = renderPage;
         renderPage = function() {
-            const page = window.location.hash.slice(1) || "home";
-            if (page === "admin") {
-                updateMainLayoutForPage(page);
-                renderAdmin();
-                applyLanguage();
-                return;
-            }
             originalRenderPage();
             applyLanguage();
-        };
-
-        const originalUpdateAccountHeader = updateAccountHeader;
-        updateAccountHeader = function() {
-            originalUpdateAccountHeader();
-            const nav = document.querySelector("#mainNav .navbar-nav");
-            let adminItem = document.getElementById("adminNavItem");
-            if (!adminItem && nav) {
-                nav.insertAdjacentHTML("beforeend", `<li class="nav-item d-none" id="adminNavItem"><a class="nav-link" href="#admin">Admin</a></li>`);
-                adminItem = document.getElementById("adminNavItem");
-            }
-            adminItem?.classList.toggle("d-none", !isAdminUser());
         };
 
         onAuthStateChanged(auth, async (user) => {
@@ -6513,15 +6416,33 @@ const ruProductMap = {
         document.getElementById("registerForm")?.addEventListener("submit", handleRegister);
         document.getElementById("loginForm")?.addEventListener("submit", handleLogin);
         document.getElementById("googleLoginBtn")?.addEventListener("click", handleGoogleLogin);
-        document.getElementById("sendPhoneCodeBtn")?.addEventListener("click", sendPhoneLoginCode);
-        document.getElementById("verifyPhoneCodeBtn")?.addEventListener("click", verifyPhoneLoginCode);
         document.getElementById("sendResetEmailBtn")?.addEventListener("click", sendResetEmail);
-        document.getElementById("sendPhoneResetBtn")?.addEventListener("click", sendPhoneResetCode);
-        document.getElementById("confirmPhoneResetBtn")?.addEventListener("click", confirmPhoneReset);
 
         document.getElementById("shopLink")?.addEventListener("click", () => {
             pendingFilter = null;
         });
+
+        function handleAccountNavigation(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            if (currentUser) {
+                const modalEl = document.getElementById("authModal");
+                if (modalEl && typeof bootstrap !== "undefined") {
+                    bootstrap.Modal.getInstance(modalEl)?.hide();
+                }
+                if (window.location.hash !== "#account") window.location.hash = "account";
+                renderPage();
+                return;
+            }
+            const modalEl = document.getElementById("authModal");
+            if (!modalEl || typeof bootstrap === "undefined") return;
+            bootstrap.Modal.getOrCreateInstance(modalEl).show();
+        }
+
+        document.getElementById("userAccountBtn")?.addEventListener("click", handleAccountNavigation);
+        document.getElementById("stickyUserAccountBtn")?.addEventListener("click", handleAccountNavigation);
+        document.getElementById("mobileUserAccountBtn")?.addEventListener("click", handleAccountNavigation);
+        document.getElementById("mobileBottomAccountBtn")?.addEventListener("click", handleAccountNavigation);
 
         function closeMobileCatalogPanel() {
             const panelEl = document.getElementById("mobileCatalogPanel");
@@ -6530,6 +6451,25 @@ const ruProductMap = {
             panelInstance?.hide();
         }
 
+        function setMobileCatalogPanelView(viewName = "catalog") {
+            const normalizedView = viewName === "menu" ? "menu" : "catalog";
+            document.querySelectorAll("[data-mobile-panel-tab]").forEach((tab) => {
+                tab.classList.toggle("active", tab.getAttribute("data-mobile-panel-tab") === normalizedView);
+            });
+            document.getElementById("mobileCatalogView")?.classList.toggle("active", normalizedView === "catalog");
+            document.getElementById("mobileMenuView")?.classList.toggle("active", normalizedView === "menu");
+        }
+
+        document.querySelectorAll("[data-mobile-panel-tab]").forEach((tab) => {
+            tab.addEventListener("click", () => {
+                setMobileCatalogPanelView(tab.getAttribute("data-mobile-panel-tab") || "catalog");
+            });
+        });
+
+        document.getElementById("mobileCatalogPanel")?.addEventListener("show.bs.offcanvas", () => {
+            setMobileCatalogPanelView("catalog");
+        });
+
         document.querySelectorAll(".catalog-item-trigger").forEach((el) => {
             el.addEventListener("click", () => {
                 const filter = el.dataset.filter || "";
@@ -6537,11 +6477,22 @@ const ruProductMap = {
                 else if (filter === "exterior") window.location.hash = "exterior";
                 else if (filter === "bebelusi") window.location.hash = "bebelusi";
                 else if (filter === "transport") window.location.hash = "transport";
+                else if (filter === "carti") window.location.hash = "carti";
                 else if (filter === "promo") window.location.hash = "promo";
                 else {
                     pendingFilter = filter;
                     window.location.hash = "shop";
                 }
+                renderPage();
+                closeMobileCatalogPanel();
+            });
+        });
+
+        document.querySelectorAll(".mobile-menu-trigger").forEach((el) => {
+            el.addEventListener("click", () => {
+                const route = el.dataset.route || "home";
+                pendingFilter = null;
+                window.location.hash = route;
                 renderPage();
                 closeMobileCatalogPanel();
             });
